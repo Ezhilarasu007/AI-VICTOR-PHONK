@@ -1421,6 +1421,7 @@ function selectSubscription(plan) {
 function activatePremium() {
     state.isPremium = true;
     removeAds();
+    document.body.classList.add('ads-free');
     console.log('Premium activated');
 }
 
@@ -1429,6 +1430,7 @@ function activateAdmin() {
     state.isAdmin = true;
     state.isPremium = true;
     removeAds();
+    document.body.classList.add('ads-free');
     console.log('Admin activated - unlimited access');
 }
 

@@ -2128,7 +2128,10 @@ a {
     .navbar,
     .mini-player,
     .full-player,
-    .modal {
+    .modal,
+    .adsense-banner-top,
+    .adsense-banner-bottom,
+    .adsense-in-article {
         display: none !important;
     }
     
@@ -2136,4 +2139,42 @@ a {
         background: white;
         color: black;
     }
+}
+
+/* ---------- AdSense Styles ---------- */
+.adsense-banner-top {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto var(--spacing-lg);
+    padding: 0 var(--spacing-md);
+}
+
+.adsense-banner-bottom {
+    width: 100%;
+    max-width: 1400px;
+    margin: var(--spacing-lg) auto 80px;
+    padding: 0 var(--spacing-md);
+}
+
+.adsense-in-article {
+    width: 100%;
+    max-width: 728px;
+    margin: var(--spacing-xl) auto;
+    padding: var(--spacing-md) 0;
+}
+
+.adsbygoogle {
+    background: var(--dark-surface);
+    border-radius: var(--radius-md);
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Hide ads for premium users */
+body.ads-free .adsense-banner-top,
+body.ads-free .adsense-banner-bottom,
+body.ads-free .adsense-in-article {
+    display: none !important;
 }
