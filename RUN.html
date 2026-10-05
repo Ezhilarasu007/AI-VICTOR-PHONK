@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>AI Victor Phonk - Quick Start</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0f;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #9b59b6, #e91e63, #00bcd4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        p {
+            color: #a0a0b0;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            margin: 0.5rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 200px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #9b59b6, #e91e63);
+            color: white;
+            box-shadow: 0 4px 20px rgba(155, 89, 182, 0.5);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(155, 89, 182, 0.5);
+        }
+        .btn-secondary {
+            background: #1a1a24;
+            color: #ffffff;
+            border: 1px solid #2a2a3a;
+        }
+        .btn-secondary:hover {
+            background: #2a2a3a;
+            border-color: #9b59b6;
+        }
+        .status {
+            margin-top: 2rem;
+            padding: 1rem;
+            border-radius: 8px;
+            background: #1a1a24;
+            border: 1px solid #2a2a3a;
+        }
+        .status.running {
+            border-color: #20e3b2;
+            color: #20e3b2;
+        }
+        .status.stopped {
+            border-color: #ff3d3d;
+            color: #ff3d3d;
+        }
+        .instructions {
+            margin-top: 2rem;
+            text-align: left;
+            background: #1a1a24;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid #2a2a3a;
+        }
+        .instructions h3 {
+            color: #9b59b6;
+            margin-bottom: 1rem;
+        }
+        .instructions ul {
+            list-style-position: inside;
+            color: #a0a0b0;
+        }
+        .instructions li {
+            margin: 0.5rem 0;
+        }
+        .instructions code {
+            background: #2a2a3a;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI VICTOR PHONK</h1>
+        <p>Create. Feel. Play. Victorize.</p>
+        
+        <button class="btn btn-primary" onclick="openApp()">Open Application</button>
+        <button class="btn btn-secondary" onclick="startBackend()">Start Backend Server</button>
+        
+        <div class="status" id="status">
+            Backend Status: <span id="backend-status">Not Started</span>
+        </div>
+        
+        <div class="instructions">
+            <h3>How to Run</h3>
+            <ul>
+                <li>Click <strong>Start Backend Server</strong> to enable Ollama integration</li>
+                <li>Click <strong>Open Application</strong> to launch the app</li>
+                <li>Or open <code>index.html</code> directly in your browser</li>
+                <li>For Ollama models, run: <code>ollama pull llama3.2</code> in PowerShell</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        let backendProcess = null;
+        
+        function openApp() {
+            window.open('index.html', '_blank');
+        }
+        
+        async function startBackend() {
+            const statusEl = document.getElementById('status');
+            const backendStatusEl = document.getElementById('backend-status');
+            
+            statusEl.className = 'status';
+            backendStatusEl.textContent = 'Starting...';
+            
+            try {
+                // Start the backend server
+                const response = await fetch('http://localhost:3000/api/models');
+                
+                if (response.ok) {
+                    statusEl.className = 'status running';
+                    backendStatusEl.textContent = 'Running on http://localhost:3000';
+                    alert('Backend server is already running!');
+                } else {
+                    throw new Error('Backend not responding');
+                }
+            } catch (error) {
+                // Backend not running, try to start it
+                statusEl.className = 'status';
+                backendStatusEl.textContent = 'Starting Node.js server...';
+                
+                // In a real scenario, you'd need a backend process
+                // For now, show instructions
+                alert('To start the backend server:\n\n1. Open PowerShell in this folder\n2. Run: node server.js\n3. Then open the application');
+                
+                statusEl.className = 'status stopped';
+                backendStatusEl.textContent = 'Not Started';
+            }
+        }
+        
+        // Check backend status on load
+        async function checkBackend() {
+            try {
+                const response = await fetch('http://localhost:3000/api/models');
+                if (response.ok) {
+                    const statusEl = document.getElementById('status');
+                    const backendStatusEl = document.getElementById('backend-status');
+                    statusEl.className = 'status running';
+                    backendStatusEl.textContent = 'Running on http://localhost:3000';
+                }
+            } catch (error) {
+                // Backend not running
+            }
+        }
+        
+        checkBackend();
+    </script>
+</body>
+</html>

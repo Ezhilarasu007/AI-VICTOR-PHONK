@@ -1,0 +1,76 @@
+# Environment variables
+.env
+.env.local
+.env.production
+.env.*.local
+
+# AdMob
+admob-config.json
+ads-config.json
+
+# Firebase
+google-services.json
+firebase-config.json
+google-ads-ids.xml
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+database/
+data/
+storage/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Node
+node_modules/
+npm-debug.log
+package-lock.json
+yarn.lock
+
+# Build
+dist/
+build/
+out/
+*.apk
+*.aab
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Important sensitive files
+server.js
+package.json (will have backend configs)
+config/
+secrets/
+*.key
+*.pem
+*.cert
+
+# Admin
+admin-config.json
+admin-secrets.json
+
+# Ollama
+ollama-models/

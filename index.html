@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="Create and discover original Phonk music with AI. Your Phonk. Your Sound.">
+    <meta name="theme-color" content="#07070d">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>AI Victor Phonk - Create. Feel. Play. Victorize.</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="brand-icon">✦</span>
+                <span class="brand-text">AI VICTOR PHONK</span>
+            </div>
+            <div class="nav-menu">
+                <button class="nav-btn active" data-section="home">Home</button>
+                <button class="nav-btn" data-section="discover">Discover</button>
+                <button class="nav-btn" data-section="generator">Generator</button>
+                <button class="nav-btn" data-section="library">Library</button>
+                <button class="nav-btn" data-section="settings">Settings</button>
+            </div>
+            <button class="nav-menu-toggle" aria-label="Toggle menu">☰</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="hero-section">
+                <div class="greeting-container">
+                    <h1 class="greeting" id="greeting">Good Morning, Sir 👋</h1>
+                    <p class="greeting-subtitle" id="greeting-subtitle">Ready to create your next Phonk hit?</p>
+                </div>
+                <div class="hero-brand">
+                    <h2 class="hero-title">AI VICTOR PHONK</h2>
+                    <p class="hero-tagline">Create. Feel. Play. Victorize.</p>
+                </div>
+                <div class="hero-card">
+                    <div class="hero-artwork">
+                        <div class="artwork-placeholder">
+                            <div class="artwork-gradient"></div>
+                            <div class="artwork-particles"></div>
+                        </div>
+                    </div>
+                    <div class="hero-actions">
+                        <button class="btn btn-primary btn-large" onclick="showSection('generator')">
+                            <span class="btn-icon">✦</span>
+                            Create Track
+                        </button>
+                        <span class="btn-subtitle">AI music generation</span>
+                        <button class="btn btn-secondary btn-large" onclick="showSection('discover')">
+                            <span class="btn-icon">🎵</span>
+                            Discover Music
+                        </button>
+                        <span class="btn-subtitle">Explore new Phonk sounds</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <h3 class="section-title">Quick Actions</h3>
+                <div class="action-grid">
+                    <div class="action-card" onclick="showSection('generator')">
+                        <div class="action-icon">✦</div>
+                        <h4>Create Track</h4>
+                        <p>Generate a new AI track</p>
+                    </div>
+                    <div class="action-card" onclick="showSection('beatlab')">
+                        <div class="action-icon">🥁</div>
+                        <h4>Beat Maker</h4>
+                        <p>Create drums and beats</p>
+                    </div>
+                    <div class="action-card" onclick="showSection('generator')">
+                        <div class="action-icon">🔄</div>
+                        <h4>AI Remix</h4>
+                        <p>Create authorized variations</p>
+                    </div>
+                    <div class="action-card" onclick="showSection('drumlab')">
+                        <div class="action-icon">🎯</div>
+                        <h4>Drum Lab</h4>
+                        <p>Build drum patterns</p>
+                    </div>
+                    <div class="action-card" onclick="showSection('editor')">
+                        <div class="action-icon">✂️</div>
+                        <h4>Music Editor</h4>
+                        <p>Edit generated audio</p>
+                    </div>
+                    <div class="action-card" onclick="showSection('discover')">
+                        <div class="action-icon">🔍</div>
+                        <h4>Discover</h4>
+                        <p>Explore available music</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Featured Music -->
+            <div class="featured-section">
+                <h3 class="section-title">Trending Now</h3>
+                <div class="music-grid" id="trending-music"></div>
+            </div>
+
+            <div class="featured-section">
+                <h3 class="section-title">New Releases</h3>
+                <div class="music-grid" id="new-releases"></div>
+            </div>
+
+            <div class="featured-section">
+                <h3 class="section-title">AI Originals</h3>
+                <div class="music-grid" id="ai-originals"></div>
+            </div>
+        </section>
+
+        <!-- Discover Section -->
+        <section id="discover" class="section">
+            <div class="discover-header">
+                <h2>Discover</h2>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search tracks, creators, genres..." id="search-input">
+                    <button class="search-btn" aria-label="Search">🔍</button>
+                </div>
+            </div>
+
+            <div class="category-tabs">
+                <button class="tab-btn active" data-category="all">All</button>
+                <button class="tab-btn" data-category="phonk">Phonk</button>
+                <button class="tab-btn" data-category="brazilian">Brazilian</button>
+                <button class="tab-btn" data-category="drift">Drift</button>
+                <button class="tab-btn" data-category="dark">Dark</button>
+                <button class="tab-btn" data-category="aggressive">Aggressive</button>
+                <button class="tab-btn" data-category="night-drive">Night Drive</button>
+                <button class="tab-btn" data-category="chill">Chill</button>
+                <button class="tab-btn" data-category="gym">Gym</button>
+                <button class="tab-btn" data-category="instrumental">Instrumental</button>
+                <button class="tab-btn" data-category="ai-originals">AI Originals</button>
+            </div>
+
+            <div class="discover-content">
+                <h3 class="section-title">Phonk Essentials</h3>
+                <div class="music-grid" id="phonk-essentials"></div>
+
+                <h3 class="section-title">Brazilian Phonk</h3>
+                <div class="music-grid" id="brazilian-phonk"></div>
+
+                <h3 class="section-title">Drift Phonk</h3>
+                <div class="music-grid" id="drift-phonk"></div>
+
+                <h3 class="section-title">Night Drive</h3>
+                <div class="music-grid" id="night-drive"></div>
+
+                <h3 class="section-title">Aggressive Beats</h3>
+                <div class="music-grid" id="aggressive-beats"></div>
+            </div>
+        </section>
+
+        <!-- Generator Section -->
+        <section id="generator" class="section">
+            <div class="generator-header">
+                <h2>AI MUSIC STUDIO</h2>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search presets..." id="preset-search">
+                    <button class="search-btn" aria-label="Search">🔍</button>
+                </div>
+            </div>
+
+            <div class="quick-start">
+                <h3 class="section-title">Quick Start</h3>
+                <div class="preset-grid">
+                    <div class="preset-card" data-preset="brazilian-night">
+                        <div class="preset-artwork"></div>
+                        <h4>Brazilian Night</h4>
+                        <p>Dark Brazilian Phonk with 808 bass</p>
+                    </div>
+                    <div class="preset-card" data-preset="dark-drift">
+                        <div class="preset-artwork"></div>
+                        <h4>Dark Drift</h4>
+                        <p>Aggressive drift phonk beats</p>
+                    </div>
+                    <div class="preset-card" data-preset="aggressive-bass">
+                        <div class="preset-artwork"></div>
+                        <h4>Aggressive Bass</h4>
+                        <p>Heavy bass and punchy drums</p>
+                    </div>
+                    <div class="preset-card" data-preset="midnight-phonk">
+                        <div class="preset-artwork"></div>
+                        <h4>Midnight Phonk</h4>
+                        <p>Atmospheric night drive vibes</p>
+                    </div>
+                    <div class="preset-card" data-preset="neon-drive">
+                        <div class="preset-artwork"></div>
+                        <h4>Neon Drive</h4>
+                        <p>Cyber-inspired neon sounds</p>
+                    </div>
+                    <div class="preset-card" data-preset="gym-energy">
+                        <div class="preset-artwork"></div>
+                        <h4>Gym Energy</h4>
+                        <p>High-energy workout beats</p>
+                    </div>
+                    <div class="preset-card" data-preset="atmospheric-phonk">
+                        <div class="preset-artwork"></div>
+                        <h4>Atmospheric Phonk</h4>
+                        <p>Cinematic ambient textures</p>
+                    </div>
+                    <div class="preset-card" data-preset="hard-bass">
+                        <div class="preset-artwork"></div>
+                        <h4>Hard Bass</h4>
+                        <p>Intense bass-focused tracks</p>
+                    </div>
+                    <div class="preset-card" data-preset="instrumental-phonk">
+                        <div class="preset-artwork"></div>
+                        <h4>Instrumental Phonk</h4>
+                        <p>Pure instrumental compositions</p>
+                    </div>
+                    <div class="preset-card" data-preset="vocal-phonk">
+                        <div class="preset-artwork"></div>
+                        <h4>Vocal Phonk</h4>
+                        <p>Vocal-infused phonk tracks</p>
+                    </div>
+                    <div class="preset-card" data-preset="cyber-phonk">
+                        <div class="preset-artwork"></div>
+                        <h4>Cyber Phonk</h4>
+                        <p>Futuristic cyber aesthetics</p>
+                    </div>
+                    <div class="preset-card" data-preset="experimental-phonk">
+                        <div class="preset-artwork"></div>
+                        <h4>Experimental Phonk</h4>
+                        <p>Avant-garde sound design</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="custom-generator">
+                <h3 class="section-title">Custom Generation</h3>
+                <div class="generator-form">
+                    <div class="form-group">
+                        <label for="track-prompt">Describe your track</label>
+                        <textarea id="track-prompt" placeholder="Create a dark Brazilian Phonk track with aggressive 808 bass, punchy drums, distorted cowbells and a futuristic night-drive atmosphere."></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="genre-select">Genre</label>
+                            <select id="genre-select">
+                                <option value="phonk">Phonk</option>
+                                <option value="drift-phonk">Drift Phonk</option>
+                                <option value="brazilian-phonk">Brazilian Phonk</option>
+                                <option value="trap">Trap</option>
+                                <option value="hip-hop">Hip-Hop</option>
+                                <option value="electronic">Electronic</option>
+                                <option value="experimental">Experimental</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="mood-select">Mood</label>
+                            <select id="mood-select">
+                                <option value="dark">Dark</option>
+                                <option value="aggressive">Aggressive</option>
+                                <option value="energetic">Energetic</option>
+                                <option value="chill">Chill</option>
+                                <option value="mysterious">Mysterious</option>
+                                <option value="cinematic">Cinematic</option>
+                                <option value="atmospheric">Atmospheric</option>
+                                <option value="powerful">Powerful</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bpm-input">BPM</label>
+                            <input type="number" id="bpm-input" value="140" min="60" max="200">
+                        </div>
+                        <div class="form-group">
+                            <label for="key-select">Key</label>
+                            <select id="key-select">
+                                <option value="c-minor">C Minor</option>
+                                <option value="d-minor">D Minor</option>
+                                <option value="e-minor">E Minor</option>
+                                <option value="f-minor">F Minor</option>
+                                <option value="g-minor">G Minor</option>
+                                <option value="a-minor">A Minor</option>
+                                <option value="b-minor">B Minor</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="duration-input">Duration (seconds)</label>
+                            <input type="number" id="duration-input" value="120" min="30" max="300">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Instruments</label>
+                        <div class="instrument-selector">
+                            <label class="instrument-option">
+                                <input type="checkbox" value="808" checked> 808
+                            </label>
+                            <label class="instrument-option">
+                                <input type="checkbox" value="kick" checked> Kick
+                            </label>
+                            <label class="instrument-option">
+                                <input type="checkbox" value="snare" checked> Snare
+                            </label>
+                            <label class="instrument-option">
+                                <input type="checkbox" value="clap"> Clap
+                            </label>
+                            <label class="instrument-option">
+                                <input type="checkbox" value="hihat" checked> Hi-hat
+                            </label>
+                            <label class="instrument-option">
+                                <input type="checkbox" value="cowbell" checked> Cowbell
+                            </label>
+                            <label class="instrument-option">
+                                <input type="checkbox" value="bass"> Bass
+                            </label>
+                            <label class="instrument-option">
+                                <input type="checkbox" value="synth"> Synth
+                            </label>
+                            <label class="instrument-option">
+                                <input type="checkbox" value="piano"> Piano
+                            </label>
+                            <label class="instrument-option">
+                                <input type="checkbox" value="guitar"> Guitar
+                            </label>
+                            <label class="instrument-option">
+                                <input type="checkbox" value="strings"> Strings
+                            </label>
+                            <label class="instrument-option">
+                                <input type="checkbox" value="pads"> Pads
+                            </label>
+                            <label class="instrument-option">
+                                <input type="checkbox" value="lead"> Lead
+                            </label>
+                            <label class="instrument-option">
+                                <input type="checkbox" value="percussion"> Percussion
+                            </label>
+                            <label class="instrument-option">
+                                <input type="checkbox" value="fx"> FX
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="energy-slider">Energy</label>
+                            <input type="range" id="energy-slider" min="0" max="100" value="70">
+                        </div>
+                        <div class="form-group">
+                            <label for="bass-slider">Bass Intensity</label>
+                            <input type="range" id="bass-slider" min="0" max="100" value="80">
+                        </div>
+                        <div class="form-group">
+                            <label for="drum-slider">Drum Intensity</label>
+                            <input type="range" id="drum-slider" min="0" max="100" value="75">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>AI Model</label>
+                        <div class="model-selector">
+                            <div class="model-card selected" data-model="smart">
+                                <h4>Smart Model</h4>
+                                <p>Auto-selects best model for your request</p>
+                            </div>
+                            <div class="model-card" data-model="fast">
+                                <h4>Fast Creator</h4>
+                                <p>Best for quick ideas</p>
+                            </div>
+                            <div class="model-card" data-model="studio">
+                                <h4>Studio Quality</h4>
+                                <p>Best for detailed full tracks</p>
+                            </div>
+                            <div class="model-card" data-model="instrumental">
+                                <h4>Instrumental Pro</h4>
+                                <p>Best for instrumental compositions</p>
+                            </div>
+                            <div class="model-card" data-model="beat">
+                                <h4>Beat Engine</h4>
+                                <p>Best for drums and loops</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary btn-large" id="generate-btn">
+                        <span class="btn-icon">✦</span>
+                        Generate Track
+                    </button>
+                </div>
+            </div>
+
+            <!-- Generation Progress -->
+            <div class="generation-progress" id="generation-progress" style="display: none;">
+                <div class="progress-container">
+                    <div class="progress-artwork">
+                        <div class="artwork-placeholder">
+                            <div class="artwork-gradient"></div>
+                            <div class="loading-spinner"></div>
+                        </div>
+                    </div>
+                    <h3>Creating your track...</h3>
+                    <p class="progress-status">Analyzing your request</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Generated Result -->
+            <div class="generated-result" id="generated-result" style="display: none;">
+                <div class="result-card">
+                    <div class="result-artwork">
+                        <div class="artwork-placeholder">
+                            <div class="artwork-gradient"></div>
+                        </div>
+                    </div>
+                    <div class="result-info">
+                        <span class="badge ai-original">AI Original</span>
+                        <h3 id="result-title">Your Phonk Track</h3>
+                        <p id="result-details">140 BPM • C Minor • 2:00</p>
+                        <p id="result-model">Model: Studio Quality</p>
+                        <p id="result-prompt" class="result-prompt"></p>
+                    </div>
+                    <div class="result-actions">
+                        <button class="btn btn-primary" onclick="playGeneratedTrack()">
+                            <span class="btn-icon">▶</span>
+                            Play
+                        </button>
+                        <button class="btn btn-secondary" onclick="saveTrack()">
+                            <span class="btn-icon">💾</span>
+                            Save
+                        </button>
+                        <button class="btn btn-secondary" onclick="downloadTrack()">
+                            <span class="btn-icon">⬇️</span>
+                            Download
+                        </button>
+                        <button class="btn btn-secondary" onclick="showSection('editor')">
+                            <span class="btn-icon">✂️</span>
+                            Edit
+                        </button>
+                        <button class="btn btn-secondary" onclick="createVariation()">
+                            <span class="btn-icon">🔄</span>
+                            Variation
+                        </button>
+                        <button class="btn btn-secondary" onclick="regenerateTrack()">
+                            <span class="btn-icon">✦</span>
+                            Regenerate
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Library Section -->
+        <section id="library" class="section">
+            <div class="library-header">
+                <h2>Library</h2>
+            </div>
+
+            <div class="library-tabs">
+                <button class="tab-btn active" data-tab="favorites">Favorites</button>
+                <button class="tab-btn" data-tab="downloads">Downloads</button>
+                <button class="tab-btn" data-tab="playlists">Playlists</button>
+                <button class="tab-btn" data-tab="creations">My Creations</button>
+                <button class="tab-btn" data-tab="recent">Recently Played</button>
+                <button class="tab-btn" data-tab="generated">Generated</button>
+            </div>
+
+            <div class="library-content">
+                <div class="library-tab active" id="favorites-tab">
+                    <div class="music-grid" id="favorites-grid">
+                        <p class="empty-state">No favorites yet. Start exploring and add tracks you love!</p>
+                    </div>
+                </div>
+                <div class="library-tab" id="downloads-tab">
+                    <div class="music-grid" id="downloads-grid">
+                        <p class="empty-state">No downloads yet. Download authorized tracks to listen offline.</p>
+                    </div>
+                </div>
+                <div class="library-tab" id="playlists-tab">
+                    <div class="playlist-grid" id="playlists-grid">
+                        <div class="create-playlist-card" onclick="createPlaylist()">
+                            <div class="create-icon">+</div>
+                            <h4>Create Playlist</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="library-tab" id="creations-tab">
+                    <div class="music-grid" id="creations-grid">
+                        <p class="empty-state">Your creations will appear here.</p>
+                    </div>
+                </div>
+                <div class="library-tab" id="recent-tab">
+                    <div class="music-grid" id="recent-grid">
+                        <p class="empty-state">No recently played tracks.</p>
+                    </div>
+                </div>
+                <div class="library-tab" id="generated-tab">
+                    <div class="music-grid" id="generated-grid">
+                        <p class="empty-state">Your AI-generated tracks will appear here.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Drum Lab Section -->
+        <section id="drumlab" class="section">
+            <div class="drumlab-header">
+                <h2>DRUM LAB</h2>
+            </div>
+
+            <div class="drumlab-controls">
+                <div class="control-group">
+                    <label for="drum-bpm">BPM</label>
+                    <input type="number" id="drum-bpm" value="140" min="60" max="200">
+                </div>
+                <div class="control-group">
+                    <label for="drum-swing">Swing</label>
+                    <input type="range" id="drum-swing" min="0" max="100" value="0">
+                </div>
+                <div class="control-group">
+                    <label for="drum-velocity">Velocity</label>
+                    <input type="range" id="drum-velocity" min="0" max="100" value="80">
+                </div>
+                <div class="control-group">
+                    <label for="drum-pattern">Pattern</label>
+                    <select id="drum-pattern">
+                        <option value="16">16-step</option>
+                        <option value="32">32-step</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="drum-sequencer">
+                <div class="sequencer-tracks">
+                    <div class="track" data-instrument="kick">
+                        <div class="track-label">Kick</div>
+                        <div class="track-steps" id="kick-steps"></div>
+                    </div>
+                    <div class="track" data-instrument="snare">
+                        <div class="track-label">Snare</div>
+                        <div class="track-steps" id="snare-steps"></div>
+                    </div>
+                    <div class="track" data-instrument="clap">
+                        <div class="track-label">Clap</div>
+                        <div class="track-steps" id="clap-steps"></div>
+                    </div>
+                    <div class="track" data-instrument="hihat">
+                        <div class="track-label">Hi-hat</div>
+                        <div class="track-steps" id="hihat-steps"></div>
+                    </div>
+                    <div class="track" data-instrument="openhat">
+                        <div class="track-label">Open Hat</div>
+                        <div class="track-steps" id="openhat-steps"></div>
+                    </div>
+                    <div class="track" data-instrument="cowbell">
+                        <div class="track-label">Cowbell</div>
+                        <div class="track-steps" id="cowbell-steps"></div>
+                    </div>
+                    <div class="track" data-instrument="percussion">
+                        <div class="track-label">Percussion</div>
+                        <div class="track-steps" id="percussion-steps"></div>
+                    </div>
+                    <div class="track" data-instrument="808">
+                        <div class="track-label">808</div>
+                        <div class="track-steps" id="808-steps"></div>
+                    </div>
+                    <div class="track" data-instrument="fx">
+                        <div class="track-label">FX</div>
+                        <div class="track-steps" id="fx-steps"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="drumlab-actions">
+                <button class="btn btn-primary" onclick="playDrumPattern()">
+                    <span class="btn-icon">▶</span>
+                    Play
+                </button>
+                <button class="btn btn-secondary" onclick="stopDrumPattern()">
+                    <span class="btn-icon">⏹</span>
+                    Stop
+                </button>
+                <button class="btn btn-secondary" onclick="randomizeDrums()">
+                    <span class="btn-icon">🎲</span>
+                    Randomize
+                </button>
+                <button class="btn btn-secondary" onclick="clearDrums()">
+                    <span class="btn-icon">🗑</span>
+                    Clear
+                </button>
+                <button class="btn btn-secondary" onclick="saveDrumPattern()">
+                    <span class="btn-icon">💾</span>
+                    Save
+                </button>
+                <button class="btn btn-secondary" onclick="exportDrumPattern()">
+                    <span class="btn-icon">⬇️</span>
+                    Export
+                </button>
+            </div>
+        </section>
+
+        <!-- Beat Lab Section -->
+        <section id="beatlab" class="section">
+            <div class="beatlab-header">
+                <h2>BEAT LAB</h2>
+            </div>
+
+            <div class="beatlab-controls">
+                <div class="control-group">
+                    <label for="beat-bpm">BPM</label>
+                    <input type="number" id="beat-bpm" value="140" min="60" max="200">
+                </div>
+                <div class="control-group">
+                    <label for="beat-key">Key</label>
+                    <select id="beat-key">
+                        <option value="c-minor">C Minor</option>
+                        <option value="d-minor">D Minor</option>
+                        <option value="e-minor">E Minor</option>
+                        <option value="f-minor">F Minor</option>
+                        <option value="g-minor">G Minor</option>
+                        <option value="a-minor">A Minor</option>
+                        <option value="b-minor">B Minor</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="beat-bars">Bars</label>
+                    <select id="beat-bars">
+                        <option value="4">4-bar</option>
+                        <option value="8">8-bar</option>
+                        <option value="16">16-bar</option>
+                        <option value="custom">Custom</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="beat-swing">Swing</label>
+                    <input type="range" id="beat-swing" min="0" max="100" value="0">
+                </div>
+            </div>
+
+            <div class="beatlab-tracks">
+                <div class="beat-track">
+                    <h4>Bass</h4>
+                    <div class="track-piano-roll"></div>
+                </div>
+                <div class="beat-track">
+                    <h4>Drums</h4>
+                    <div class="track-piano-roll"></div>
+                </div>
+                <div class="beat-track">
+                    <h4>Melody</h4>
+                    <div class="track-piano-roll"></div>
+                </div>
+                <div class="beat-track">
+                    <h4>FX</h4>
+                    <div class="track-piano-roll"></div>
+                </div>
+            </div>
+
+            <div class="beatlab-actions">
+                <button class="btn btn-primary" onclick="playBeat()">
+                    <span class="btn-icon">▶</span>
+                    Play
+                </button>
+                <button class="btn btn-secondary" onclick="stopBeat()">
+                    <span class="btn-icon">⏹</span>
+                    Stop
+                </button>
+                <button class="btn btn-secondary" onclick="saveBeat()">
+                    <span class="btn-icon">💾</span>
+                    Save
+                </button>
+            </div>
+        </section>
+
+        <!-- Editor Section -->
+        <section id="editor" class="section">
+            <div class="editor-header">
+                <h2>VICTOR AUDIO EDITOR</h2>
+            </div>
+
+            <div class="editor-workspace">
+                <div class="waveform-container">
+                    <div class="waveform-view" id="waveform-view">
+                        <div class="waveform-placeholder">
+                            <p>Load a track to edit</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="editor-controls">
+                    <div class="control-group">
+                        <label for="trim-start">Trim Start</label>
+                        <input type="range" id="trim-start" min="0" max="100" value="0">
+                    </div>
+                    <div class="control-group">
+                        <label for="trim-end">Trim End</label>
+                        <input type="range" id="trim-end" min="0" max="100" value="100">
+                    </div>
+                    <div class="control-group">
+                        <label for="fade-in">Fade In</label>
+                        <input type="range" id="fade-in" min="0" max="100" value="0">
+                    </div>
+                    <div class="control-group">
+                        <label for="fade-out">Fade Out</label>
+                        <input type="range" id="fade-out" min="0" max="100" value="0">
+                    </div>
+                    <div class="control-group">
+                        <label for="volume">Volume</label>
+                        <input type="range" id="volume" min="0" max="100" value="100">
+                    </div>
+                    <div class="control-group">
+                        <label for="tempo">Tempo</label>
+                        <input type="range" id="tempo" min="50" max="200" value="100">
+                    </div>
+                    <div class="control-group">
+                        <label for="pitch">Pitch</label>
+                        <input type="range" id="pitch" min="-12" max="12" value="0">
+                    </div>
+                </div>
+
+                <div class="editor-actions">
+                    <button class="btn btn-primary" onclick="playEditedTrack()">
+                        <span class="btn-icon">▶</span>
+                        Play
+                    </button>
+                    <button class="btn btn-secondary" onclick="stopEditedTrack()">
+                        <span class="btn-icon">⏹</span>
+                        Stop
+                    </button>
+                    <button class="btn btn-secondary" onclick="undoEdit()">
+                        <span class="btn-icon">↩</span>
+                        Undo
+                    </button>
+                    <button class="btn btn-secondary" onclick="redoEdit()">
+                        <span class="btn-icon">↪</span>
+                        Redo
+                    </button>
+                    <button class="btn btn-secondary" onclick="resetEdit()">
+                        <span class="btn-icon">🔄</span>
+                        Reset
+                    </button>
+                    <button class="btn btn-primary" onclick="saveEdit()">
+                        <span class="btn-icon">💾</span>
+                        Save as New
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Settings Section -->
+        <section id="settings" class="section">
+            <div class="settings-header">
+                <h2>Settings</h2>
+            </div>
+
+            <div class="settings-sections">
+                <div class="settings-section">
+                    <h3>Account</h3>
+                    <div class="settings-item">
+                        <label>Profile</label>
+                        <button class="btn btn-secondary">Edit Profile</button>
+                    </div>
+                    <div class="settings-item">
+                        <label>Subscription</label>
+                        <button class="btn btn-primary" onclick="showSubscriptionModal()">Go Premium</button>
+                    </div>
+                    <div class="settings-item">
+                        <label>Delete Account</label>
+                        <button class="btn btn-danger" onclick="showDeleteAccount()">Delete Account</button>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>App Preferences</h3>
+                    <div class="settings-item">
+                        <label for="reduce-motion">Reduce Motion</label>
+                        <input type="checkbox" id="reduce-motion">
+                    </div>
+                    <div class="settings-item">
+                        <label for="dark-mode">Dark Mode</label>
+                        <input type="checkbox" id="dark-mode" checked>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>Audio</h3>
+                    <div class="settings-item">
+                        <label for="audio-quality">Audio Quality</label>
+                        <select id="audio-quality">
+                            <option value="high">High</option>
+                            <option value="medium">Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+                    <div class="settings-item">
+                        <label for="background-playback">Background Playback</label>
+                        <input type="checkbox" id="background-playback" checked>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>Privacy</h3>
+                    <div class="settings-item">
+                        <button class="btn btn-secondary" onclick="showSection('privacy')">Privacy Policy</button>
+                    </div>
+                    <div class="settings-item">
+                        <button class="btn btn-secondary" onclick="showSection('terms')">Terms & Conditions</button>
+                    </div>
+                    <div class="settings-item">
+                        <button class="btn btn-secondary" onclick="showSection('privacy-center')">Privacy Center</button>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>Support</h3>
+                    <div class="settings-item">
+                        <button class="btn btn-secondary" onclick="showSection('youtube-help')">YouTube Help</button>
+                    </div>
+                    <div class="settings-item">
+                        <button class="btn btn-secondary" onclick="showSection('rate-us')">Rate Us ⭐</button>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>About</h3>
+                    <div class="settings-item">
+                        <label>Version</label>
+                        <span>1.0.0</span>
+                    </div>
+                    <div class="settings-item">
+                        <button class="btn btn-secondary" onclick="showSection('licenses')">Open Source Licenses</button>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>Admin</h3>
+                    <div class="settings-item">
+                        <button class="btn btn-secondary" onclick="showSection('admin-login')">Admin Dashboard</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Privacy Policy Section -->
+        <section id="privacy" class="section">
+            <div class="legal-header">
+                <h2>Privacy Policy</h2>
+                <button class="btn btn-secondary" onclick="showSection('settings')">Back</button>
+            </div>
+            <div class="legal-content">
+                <p>Last updated: October 5, 2026</p>
+                <h3>1. Information We Collect</h3>
+                <p>We collect information you provide directly, including account information, prompts, uploaded audio, generated audio, playlists, favorites, and downloads.</p>
+                <h3>2. How We Use Your Information</h3>
+                <p>We use your information to provide our services, improve our AI models, process payments, and ensure security.</p>
+                <h3>3. Data Sharing</h3>
+                <p>We share data with AI providers for music generation and with service providers for infrastructure. We do not sell your personal data.</p>
+                <h3>4. Data Security</h3>
+                <p>We implement industry-standard security measures to protect your data.</p>
+                <h3>5. Your Rights</h3>
+                <p>You have the right to access, correct, delete, or export your data.</p>
+                <h3>6. Contact</h3>
+                <p>For privacy inquiries, contact us at privacy@aivictorphonk.com</p>
+            </div>
+        </section>
+
+        <!-- Terms Section -->
+        <section id="terms" class="section">
+            <div class="legal-header">
+                <h2>Terms & Conditions</h2>
+                <button class="btn btn-secondary" onclick="showSection('settings')">Back</button>
+            </div>
+            <div class="legal-content">
+                <p>Last updated: October 5, 2026</p>
+                <h3>1. Acceptance of Terms</h3>
+                <p>By using AI Victor Phonk, you agree to these terms.</p>
+                <h3>2. Account Responsibilities</h3>
+                <p>You are responsible for maintaining the security of your account.</p>
+                <h3>3. Music Generation</h3>
+                <p>AI-generated music is original and you own the rights to use it.</p>
+                <h3>4. User Content</h3>
+                <p>You retain ownership of content you upload, but grant us license to process it.</p>
+                <h3>5. Copyright</h3>
+                <p>All music on the platform is either AI-generated, properly licensed, or public domain.</p>
+                <h3>6. Prohibited Activities</h3>
+                <p>You may not use the platform for illegal purposes or to infringe copyrights.</p>
+                <h3>7. Termination</h3>
+                <p>We reserve the right to terminate accounts that violate these terms.</p>
+            </div>
+        </section>
+
+        <!-- Privacy Center Section -->
+        <section id="privacy-center" class="section">
+            <div class="privacy-center-header">
+                <h2>PRIVACY CENTER</h2>
+                <button class="btn btn-secondary" onclick="showSection('settings')">Back</button>
+            </div>
+            <div class="privacy-center-content">
+                <div class="privacy-option">
+                    <button class="btn btn-secondary" onclick="showSection('privacy')">View Privacy Policy</button>
+                </div>
+                <div class="privacy-option">
+                    <button class="btn btn-secondary" onclick="showSection('terms')">View Terms</button>
+                </div>
+                <div class="privacy-option">
+                    <button class="btn btn-secondary">Privacy Preferences</button>
+                </div>
+                <div class="privacy-option">
+                    <button class="btn btn-secondary">Manage Data</button>
+                </div>
+                <div class="privacy-option">
+                    <button class="btn btn-secondary">Request Data</button>
+                </div>
+                <div class="privacy-option">
+                    <button class="btn btn-danger" onclick="showDeleteAccount()">Delete Account</button>
+                </div>
+                <div class="privacy-option">
+                    <button class="btn btn-secondary">Third-Party Services</button>
+                </div>
+                <div class="privacy-option">
+                    <button class="btn btn-secondary" onclick="showSection('licenses')">Open Source Licenses</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- YouTube Help Section -->
+        <section id="youtube-help" class="section">
+            <div class="youtube-header">
+                <h2>YOUTUBE HELP</h2>
+                <button class="btn btn-secondary" onclick="showSection('settings')">Back</button>
+            </div>
+            <div class="youtube-content">
+                <h3>How to Upload Music</h3>
+                <p>Learn how to upload your original Phonk tracks to YouTube properly.</p>
+                <h3>How to Create Phonk Videos</h3>
+                <p>Tips for creating engaging Phonk music videos.</p>
+                <h3>Music Copyright Basics</h3>
+                <p>Understanding copyright for music creators.</p>
+                <h3>How Content ID Works</h3>
+                <p>Learn about YouTube's Content ID system.</p>
+                <h3>How to Use Licensed Music</h3>
+                <p>Properly using licensed music in your videos.</p>
+                <h3>How to Protect Original Music</h3>
+                <p>Registering your original music with Content ID.</p>
+            </div>
+        </section>
+
+        <!-- Rate Us Section -->
+        <section id="rate-us" class="section">
+            <div class="rate-header">
+                <h2>Rate Us ⭐</h2>
+                <button class="btn btn-secondary" onclick="showSection('settings')">Back</button>
+            </div>
+            <div class="rate-content">
+                <p>Enjoying AI Victor Phonk? Please rate us on the Play Store!</p>
+                <div class="star-rating">
+                    <span class="star" data-rating="1">⭐</span>
+                    <span class="star" data-rating="2">⭐</span>
+                    <span class="star" data-rating="3">⭐</span>
+                    <span class="star" data-rating="4">⭐</span>
+                    <span class="star" data-rating="5">⭐</span>
+                </div>
+                <button class="btn btn-primary btn-large">Submit Rating</button>
+            </div>
+        </section>
+
+        <!-- Licenses Section -->
+        <section id="licenses" class="section">
+            <div class="licenses-header">
+                <h2>Open Source Licenses</h2>
+                <button class="btn btn-secondary" onclick="showSection('settings')">Back</button>
+            </div>
+            <div class="licenses-content">
+                <p>This application uses the following open source libraries:</p>
+                <ul>
+                    <li>React - MIT License</li>
+                    <li>Web Audio API - W3C License</li>
+                    <li>Additional libraries would be listed here</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Admin Login Section -->
+        <section id="admin-login" class="section">
+            <div class="admin-login-container">
+                <h2>Admin Access</h2>
+                <div class="admin-login-form">
+                    <div class="form-group">
+                        <label for="admin-username">Username</label>
+                        <input type="text" id="admin-username" placeholder="Enter admin username">
+                    </div>
+                    <div class="form-group">
+                        <label for="admin-password">Password</label>
+                        <input type="password" id="admin-password" placeholder="Enter admin password">
+                    </div>
+                    <button class="btn btn-primary" onclick="adminLogin()">Login</button>
+                    <button class="btn btn-secondary" onclick="showSection('settings')">Cancel</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Admin Dashboard Section -->
+        <section id="admin-dashboard" class="section">
+            <div class="admin-header">
+                <h2>Admin Dashboard</h2>
+                <button class="btn btn-secondary" onclick="adminLogout()">Logout</button>
+            </div>
+
+            <div class="admin-nav">
+                <button class="admin-nav-btn active" data-admin-tab="dashboard">Dashboard</button>
+                <button class="admin-nav-btn" data-admin-tab="users">Users</button>
+                <button class="admin-nav-btn" data-admin-tab="tracks">Tracks</button>
+                <button class="admin-nav-btn" data-admin-tab="generations">Generations</button>
+                <button class="admin-nav-btn" data-admin-tab="presets">Presets</button>
+                <button class="admin-nav-btn" data-admin-tab="analytics">Analytics</button>
+                <button class="admin-nav-btn" data-admin-tab="reports">Reports</button>
+                <button class="admin-nav-btn" data-admin-tab="settings">Settings</button>
+            </div>
+
+            <div class="admin-content">
+                <div class="admin-tab active" id="admin-dashboard-tab">
+                    <h3>Dashboard Overview</h3>
+                    <div class="admin-stats">
+                        <div class="stat-card">
+                            <h4>Total Users</h4>
+                            <p class="stat-value">1,234</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Active Users</h4>
+                            <p class="stat-value">567</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Total Tracks</h4>
+                            <p class="stat-value">8,901</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Generations</h4>
+                            <p class="stat-value">2,345</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Track Plays</h4>
+                            <p class="stat-value">45,678</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Downloads</h4>
+                            <p class="stat-value">3,456</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-tab" id="admin-users-tab">
+                    <h3>User Management</h3>
+                    <div class="admin-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>user1</td>
+                                    <td>user1@example.com</td>
+                                    <td>Active</td>
+                                    <td><button class="btn btn-secondary">Edit</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="admin-tab" id="admin-tracks-tab">
+                    <h3>Track Management</h3>
+                    <button class="btn btn-primary">Add Track</button>
+                    <div class="admin-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Title</th>
+                                    <th>Creator</th>
+                                    <th>Genre</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Phonk Track 1</td>
+                                    <td>Creator1</td>
+                                    <td>Phonk</td>
+                                    <td>Published</td>
+                                    <td><button class="btn btn-secondary">Edit</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="admin-tab" id="admin-generations-tab">
+                    <h3>AI Generations</h3>
+                    <div class="admin-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>User</th>
+                                    <th>Prompt</th>
+                                    <th>Model</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>user1</td>
+                                    <td>Dark phonk track...</td>
+                                    <td>Studio Quality</td>
+                                    <td>Completed</td>
+                                    <td><button class="btn btn-secondary">View</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="admin-tab" id="admin-presets-tab">
+                    <h3>AI Presets</h3>
+                    <button class="btn btn-primary">Add Preset</button>
+                    <div class="admin-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Genre</th>
+                                    <th>Mood</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Brazilian Night</td>
+                                    <td>Brazilian Phonk</td>
+                                    <td>Dark</td>
+                                    <td>Active</td>
+                                    <td><button class="btn btn-secondary">Edit</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="admin-tab" id="admin-analytics-tab">
+                    <h3>Analytics</h3>
+                    <div class="admin-stats">
+                        <div class="stat-card">
+                            <h4>Popular Genres</h4>
+                            <p>Phonk: 45%</p>
+                            <p>Brazilian: 25%</p>
+                            <p>Drift: 20%</p>
+                            <p>Other: 10%</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Popular Presets</h4>
+                            <p>Brazilian Night: 30%</p>
+                            <p>Dark Drift: 25%</p>
+                            <p>Neon Drive: 20%</p>
+                            <p>Other: 25%</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Storage Usage</h4>
+                            <p class="stat-value">45.6 GB</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-tab" id="admin-reports-tab">
+                    <h3>Reports</h3>
+                    <div class="admin-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Copyright</td>
+                                    <td>Reported track</td>
+                                    <td>Pending</td>
+                                    <td><button class="btn btn-secondary">Review</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="admin-tab" id="admin-settings-tab">
+                    <h3>Admin Settings</h3>
+                    <div class="settings-section">
+                        <h4>AI Models</h4>
+                        <div class="settings-item">
+                            <label>Fast Creator</label>
+                            <input type="checkbox" checked>
+                        </div>
+                        <div class="settings-item">
+                            <label>Studio Quality</label>
+                            <input type="checkbox" checked>
+                        </div>
+                        <div class="settings-item">
+                            <label>Instrumental Pro</label>
+                            <input type="checkbox" checked>
+                        </div>
+                        <div class="settings-item">
+                            <label>Beat Engine</label>
+                            <input type="checkbox" checked>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Mini Player -->
+    <div class="mini-player" id="mini-player" style="display: none;">
+        <div class="mini-player-content">
+            <div class="mini-player-artwork">
+                <div class="artwork-placeholder small">
+                    <div class="artwork-gradient"></div>
+                </div>
+            </div>
+            <div class="mini-player-info">
+                <h4 id="mini-player-title">Track Title</h4>
+                <p id="mini-player-creator">Creator</p>
+            </div>
+            <div class="mini-player-controls">
+                <button class="mini-player-btn" onclick="previousTrack()" aria-label="Previous track">⏮</button>
+                <button class="mini-player-btn" id="mini-play-btn" onclick="togglePlay()" aria-label="Play/Pause">▶</button>
+                <button class="mini-player-btn" onclick="nextTrack()" aria-label="Next track">⏭</button>
+            </div>
+            <button class="mini-player-expand" onclick="showFullPlayer()" aria-label="Expand player">↑</button>
+        </div>
+    </div>
+
+    <!-- Full Player -->
+    <div class="full-player" id="full-player" style="display: none;">
+        <div class="full-player-overlay" onclick="hideFullPlayer()"></div>
+        <div class="full-player-content">
+            <button class="close-player" onclick="hideFullPlayer()" aria-label="Close player">✕</button>
+            <div class="full-player-artwork">
+                <div class="artwork-placeholder large">
+                    <div class="artwork-gradient"></div>
+                    <div class="music-visualizer" id="music-visualizer">
+                        <div class="visualizer-bar"></div>
+                        <div class="visualizer-bar"></div>
+                        <div class="visualizer-bar"></div>
+                        <div class="visualizer-bar"></div>
+                        <div class="visualizer-bar"></div>
+                        <div class="visualizer-bar"></div>
+                        <div class="visualizer-bar"></div>
+                        <div class="visualizer-bar"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="full-player-info">
+                <span class="badge ai-original">AI Original</span>
+                <h2 id="full-player-title">Track Title</h2>
+                <p id="full-player-creator">Creator</p>
+                <p id="full-player-details">140 BPM • C Minor • 2:00</p>
+            </div>
+            <div class="full-player-progress">
+                <span id="current-time">0:00</span>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="player-progress">
+                        <div class="progress-fill" id="player-progress-fill"></div>
+                    </div>
+                </div>
+                <span id="total-time">2:00</span>
+            </div>
+            <div class="full-player-controls">
+                <button class="player-btn" onclick="toggleShuffle()" id="shuffle-btn" aria-label="Shuffle">🔀</button>
+                <button class="player-btn" onclick="previousTrack()" aria-label="Previous">⏮</button>
+                <button class="player-btn play-btn" id="play-btn" onclick="togglePlay()" aria-label="Play/Pause">▶</button>
+                <button class="player-btn" onclick="nextTrack()" aria-label="Next">⏭</button>
+                <button class="player-btn" onclick="toggleRepeat()" id="repeat-btn" aria-label="Repeat">🔁</button>
+            </div>
+            <div class="full-player-actions">
+                <button class="player-action-btn" onclick="toggleFavorite()" id="favorite-btn" aria-label="Favorite">♡</button>
+                <button class="player-action-btn" onclick="downloadTrack()" aria-label="Download">⬇️</button>
+                <button class="player-action-btn" onclick="shareTrack()" aria-label="Share">📤</button>
+                <button class="player-action-btn" onclick="showQueue()" aria-label="Queue">📋</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Account Modal -->
+    <div class="modal" id="delete-account-modal" style="display: none;">
+        <div class="modal-content">
+            <h2>Delete Account</h2>
+            <p>Are you sure you want to delete your account? This action cannot be undone.</p>
+            <p>Your data will be permanently deleted except for information we must legally retain.</p>
+            <div class="modal-actions">
+                <button class="btn btn-danger" onclick="confirmDeleteAccount()">Delete Account</button>
+                <button class="btn btn-secondary" onclick="hideDeleteAccount()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

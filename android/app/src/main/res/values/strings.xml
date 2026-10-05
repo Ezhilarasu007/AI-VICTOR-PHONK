@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AI Victor Phonk</string>
+    <string name="banner_ad_unit_id">ca-app-pub-6751037211810646/7948650423</string>
+    <string name="interstitial_ad_unit_id">ca-app-pub-6751037211810646/1514094858</string>
+    <string name="rewarded_ad_unit_id">ca-app-pub-6751037211810646/2029100178</string>
+    <string name="native_ad_unit_id">ca-app-pub-6751037211810646/3685048341</string>
+    <string name="open_ad_unit_id">ca-app-pub-6751037211810646/2496089751</string>
+</resources>

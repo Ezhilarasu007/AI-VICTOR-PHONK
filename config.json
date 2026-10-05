@@ -1,0 +1,27 @@
+{
+  "appName": "AI Victor Phonk",
+  "package": "com.aivictorphonk.www",
+  "version": "1.0.0",
+  "buildNumber": 1,
+  "minSdkVersion": 21,
+  "targetSdkVersion": 34,
+  "compileSdkVersion": 34,
+  "features": {
+    "ads": {
+      "enabled": true,
+      "showOnFree": true,
+      "hideOnPremium": true,
+      "hideOnAdmin": true
+    },
+    "subscriptions": {
+      "enabled": true,
+      "monthlyId": "monthly_premium",
+      "yearlyId": "yearly_premium"
+    },
+    "admin": {
+      "freeAccess": true,
+      "unlimitedGenerations": true,
+      "bypassAds": true
+    }
+  }
+}

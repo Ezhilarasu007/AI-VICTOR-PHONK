@@ -1,0 +1,25 @@
+{
+  "name": "ai-victor-phonk",
+  "version": "1.0.0",
+  "description": "AI-powered Phonk music platform and music studio",
+  "main": "index.html",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "npx http-server -p 8080 -o -c-1",
+    "android": "cd android && ./gradlew assembleDebug"
+  },
+  "keywords": [
+    "phonk",
+    "ai-music",
+    "music-studio",
+    "music-generator",
+    "android",
+    "mobile"
+  ],
+  "author": "AI Victor Phonk",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ezhilarasu007/AI-VICTOR-PHONK.git"
+  }
+}
