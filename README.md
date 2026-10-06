@@ -2,7 +2,9 @@
 
 **Create. Feel. Play. Victorize.**
 
-A fully responsive, performance-optimized AI-powered Phonk music platform and music studio that works seamlessly on all devices (Mobile, Tablet, PC).
+A responsive Phonk music studio prototype for exploring sample catalogue metadata, building drum patterns, and managing a browser-session library.
+
+> **Current deployment status:** This is a static prototype. AI audio generation, accounts, payments, and analytics are not connected. The generator reports that audio generation is unavailable instead of presenting a simulated result. Advertising is disabled while the site is reviewed for publisher-content compliance.
 
 ## 🚀 Quick Start
 
@@ -14,23 +16,6 @@ Simply open `index.html` in your browser:
 # Double-click index.html or run:
 start index.html
 ```
-
-### Option 2: With Backend (Ollama Integration)
-
-For AI model integration with Ollama:
-
-1. **Start the backend server:**
-```bash
-node server.js
-```
-
-2. **Open the application:**
-```bash
-# Double-click index.html or use:
-start index.html
-```
-
-Or open `RUN.html` for a quick launch page.
 
 ## 📱 Device Support
 
@@ -66,17 +51,19 @@ Or open `RUN.html` for a quick launch page.
 
 ## 🎨 Features
 
-### Core Features
+### Available Prototype Features
 - ✅ Dynamic greeting system (time-based)
-- ✅ AI Music Generator with Ollama integration
-- ✅ Full-featured music player with visualizer
-- ✅ Mini player and full player
+- ✅ Phonk catalogue browsing and filtering
 - ✅ Drum Lab (16-step sequencer)
-- ✅ Beat Lab (multi-track creation)
-- ✅ Music Editor (waveform editing)
+- ✅ Browser-session library and playlists
+- ⚠️ AI audio generation is not connected
+- ⚠️ Sample catalogue entries do not include audio recordings
+- ⚠️ Playback, account, subscription, and download services are not production services
+- ✅ Mini player and full player interface
+- ✅ Beat Lab and Music Editor interfaces
 - ✅ Library management
 - ✅ Discovery section with categories
-- ✅ Admin dashboard
+- ⚠️ Admin dashboard is a prototype interface only
 - ✅ Settings and privacy controls
 
 ### Responsive Design
@@ -87,24 +74,21 @@ Or open `RUN.html` for a quick launch page.
 - ✅ Optimized scroll performance
 - ✅ Hardware-accelerated animations
 
-## 🔧 Ollama Integration
+## 🌐 Search and ownership verification
 
-### Pull Models
+- `robots.txt` permits public crawling and points to the sitemap.
+- `sitemap.xml` lists the public homepage.
+- `google01f842ee1eaaecce.html` and the two homepage verification meta tags are present for Google site ownership checks.
+- `ads.txt` contains the existing publisher declaration. Ad delivery is disabled in the website until the content and account are ready for review.
+- Google Analytics is not configured. Add the Measurement ID from the authorized Analytics property before enabling its `gtag.js` snippet; do not use a placeholder ID.
 
-Open PowerShell and run:
+The Google DNS verification CNAME cannot be applied from this repository. In the DNS control panel for the verified domain, add the record exactly as supplied by Google:
 
-```bash
-# Pull a model
-ollama pull llama3.2
+| Type | Host/Name | Target/Value |
+|---|---|---|
+| CNAME | `vnrzw6wt2fcn` | `gv-cq4jq4xo3lzkg.dv.googlehosted.com` |
 
-# Or other models
-ollama pull mistral
-ollama pull phi
-```
-
-### Available Models
-
-The app automatically fetches available Ollama models and displays them in the Generator section.
+DNS propagation and Google verification must be completed in the corresponding provider accounts.
 
 ## 📁 Project Structure
 
@@ -113,22 +97,19 @@ AI VICTOR PHONK/
 ├── index.html          # Main application (opens directly)
 ├── styles.css          # Optimized responsive CSS
 ├── script.js           # Performance-optimized JavaScript
-├── server.js           # Backend server (for Ollama)
-├── package.json        # Dependencies
-├── RUN.html           # Quick launch page
+├── robots.txt          # Crawler instructions
+├── sitemap.xml         # Public homepage sitemap
+├── ads.txt             # Publisher declaration
 └── README.md          # This file
 ```
 
 ## 🎯 Usage
 
-### Creating Music
+### Generator status
 
 1. Navigate to **Generator**
-2. Choose a preset or enter a custom description
-3. Select genre, mood, BPM, and parameters
-4. Choose an AI model (Smart or Ollama)
-5. Click **Generate Track**
-6. Play, save, download, or edit your track
+2. Enter a prompt and parameters
+3. The generator will state that audio generation is unavailable; it will not create or claim a track
 
 ### Using Drum Lab
 
@@ -162,16 +143,14 @@ AI VICTOR PHONK/
 ## 🔐 Security
 
 - No hardcoded credentials
-- Backend authentication required for admin
-- Secure API communication
-- Input validation
+- No production admin authentication, accounts, or API backend are included
 
 ## 📝 Notes
 
-- The application works **without** the backend server for basic features
-- Backend server (server.js) is only needed for Ollama AI integration
-- All files are self-contained in index.html, styles.css, and script.js
-- No build process required - runs directly in browser
+- The app is a static prototype and runs directly in a browser.
+- `server.js` is not part of the deployed site; AI audio generation is not implemented.
+- Catalogue entries are metadata examples without audio, download, or licensing claims.
+- No Google Analytics tag is installed because no authorized Measurement ID was supplied.
 
 ## 🎶 Phonk Categories
 
@@ -185,7 +164,7 @@ AI VICTOR PHONK/
 - Gym Phonk
 - Chill Phonk
 - Instrumental
-- AI Originals
+- Sample Catalogue
 - Drum Beats
 - Bass Beats
 - Experimental

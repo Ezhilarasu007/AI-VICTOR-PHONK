@@ -17,10 +17,9 @@ const state = {
     repeat: 'none',
     adminLoggedIn: false,
     reduceMotion: false,
-    loadedModels: false,
     isPremium: false,
     isAdmin: false,
-    adsEnabled: true,
+    adsEnabled: false,
     adLoaded: false
 };
 
@@ -34,8 +33,8 @@ const sampleTracks = [
         bpm: 140,
         duration: "2:45",
         artwork: null,
-        isAIOriginal: true,
-        downloadAllowed: true
+        isAIOriginal: false,
+        downloadAllowed: false
     },
     {
         id: 2,
@@ -45,8 +44,8 @@ const sampleTracks = [
         bpm: 145,
         duration: "3:12",
         artwork: null,
-        isAIOriginal: true,
-        downloadAllowed: true
+        isAIOriginal: false,
+        downloadAllowed: false
     },
     {
         id: 3,
@@ -56,8 +55,8 @@ const sampleTracks = [
         bpm: 150,
         duration: "2:30",
         artwork: null,
-        isAIOriginal: true,
-        downloadAllowed: true
+        isAIOriginal: false,
+        downloadAllowed: false
     },
     {
         id: 4,
@@ -67,8 +66,8 @@ const sampleTracks = [
         bpm: 138,
         duration: "3:00",
         artwork: null,
-        isAIOriginal: true,
-        downloadAllowed: true
+        isAIOriginal: false,
+        downloadAllowed: false
     },
     {
         id: 5,
@@ -89,8 +88,8 @@ const sampleTracks = [
         bpm: 155,
         duration: "3:20",
         artwork: null,
-        isAIOriginal: true,
-        downloadAllowed: true
+        isAIOriginal: false,
+        downloadAllowed: false
     },
     {
         id: 7,
@@ -100,8 +99,8 @@ const sampleTracks = [
         bpm: 130,
         duration: "4:00",
         artwork: null,
-        isAIOriginal: true,
-        downloadAllowed: true
+        isAIOriginal: false,
+        downloadAllowed: false
     },
     {
         id: 8,
@@ -111,16 +110,24 @@ const sampleTracks = [
         bpm: 148,
         duration: "2:20",
         artwork: null,
-        isAIOriginal: true,
-        downloadAllowed: true
+        isAIOriginal: false,
+        downloadAllowed: false
     }
 ];
 
 // Initialize Application
 document.addEventListener('DOMContentLoaded', () => {
-    // Use requestAnimationFrame for smooth initialization
     requestAnimationFrame(() => {
-        initializeApp();
+        try {
+            initializeApp();
+        } catch (error) {
+            console.error('Initialization error:', error);
+            const message = document.createElement('p');
+            message.className = 'app-error';
+            message.setAttribute('role', 'alert');
+            message.textContent = 'The app could not finish starting. Reload the page or check the browser console for details.';
+            document.body.prepend(message);
+        }
     });
 });
 
@@ -130,7 +137,6 @@ function initializeApp() {
     initializeDrumSequencer();
     populateMusicSections();
     checkReduceMotionPreference();
-    initializeAds();
     
     // Debounced greeting update
     let greetingTimeout;
@@ -142,10 +148,6 @@ function initializeApp() {
     // Update greeting every minute
     setInterval(updateGreetingDebounced, 60000);
     
-    // Load Ollama models after initial render
-    setTimeout(() => {
-        loadOllamaModels();
-    }, 1000);
 }
 
 // Dynamic Greeting System - Optimized
@@ -414,7 +416,7 @@ function populateMusicSections() {
     const sections = {
         'trending-music': sampleTracks.slice(0, 4),
         'new-releases': sampleTracks.slice(2, 6),
-        'ai-originals': sampleTracks.filter(t => t.isAIOriginal).slice(0, 4),
+        'ai-originals': sampleTracks.slice(0, 4),
         'phonk-essentials': sampleTracks.filter(t => t.genre.includes('Phonk')).slice(0, 4),
         'brazilian-phonk': sampleTracks.filter(t => t.genre.includes('Brazilian')),
         'drift-phonk': sampleTracks.filter(t => t.genre.includes('Drift')),
@@ -438,6 +440,10 @@ function populateMusicSections() {
 function playTrack(trackId) {
     const track = sampleTracks.find(t => t.id === trackId);
     if (!track) return;
+    if (!track.audioUrl) {
+        alert('Audio playback is not available for sample catalogue entries.');
+        return;
+    }
     
     state.currentTrack = track;
     state.isPlaying = true;
@@ -559,15 +565,15 @@ function hideFullPlayer() {
 
 function downloadTrack(trackId) {
     const track = sampleTracks.find(t => t.id === trackId) || state.currentTrack;
-    if (track && track.downloadAllowed) {
-        alert(`Downloading: ${track.title}`);
-        
-        if (!state.downloads.includes(trackId)) {
-            state.downloads.push(trackId);
-        }
-    } else {
-        alert('This track is not available for download.');
+    if (!track || !track.downloadAllowed || !track.audioUrl) {
+        alert('No downloadable audio is available for this sample.');
+        return;
     }
+    const downloadLink = document.createElement('a');
+    downloadLink.href = track.audioUrl;
+    downloadLink.download = `${track.title}.mp3`;
+    downloadLink.click();
+    if (!state.downloads.includes(track.id)) state.downloads.push(track.id);
 }
 
 function shareTrack() {
@@ -595,184 +601,13 @@ function stopVisualizer() {
     });
 }
 
-// Ollama Integration via Backend - Optimized
-const BACKEND_API_URL = 'http://localhost:3000/api';
-
-async function fetchOllamaModels() {
-    try {
-        const response = await fetch(`${BACKEND_API_URL}/models`);
-        const data = await response.json();
-        return data.models || [];
-    } catch (error) {
-        console.error('Failed to fetch Ollama models:', error);
-        return [];
-    }
-}
-
-async function loadOllamaModels() {
-    if (state.loadedModels) return;
-    
-    const models = await fetchOllamaModels();
-    const modelSelector = document.querySelector('.model-selector');
-    
-    if (models.length > 0 && modelSelector) {
-        // Clear existing model cards except smart model
-        const existingCards = modelSelector.querySelectorAll('.model-card:not([data-model="smart"])');
-        existingCards.forEach(card => card.remove());
-        
-        // Add Ollama models with document fragment
-        const fragment = document.createDocumentFragment();
-        models.forEach(model => {
-            const modelName = model.name.split(':')[0];
-            const card = document.createElement('div');
-            card.className = 'model-card';
-            card.dataset.model = modelName;
-            card.innerHTML = `
-                <h4>${modelName}</h4>
-                <p>Ollama Model • ${formatSize(model.size)}</p>
-            `;
-            fragment.appendChild(card);
-        });
-        modelSelector.appendChild(fragment);
-        
-        console.log(`Loaded ${models.length} Ollama models`);
-        state.loadedModels = true;
-    } else {
-        console.log('No Ollama models found. Run "ollama pull <model>" to download models.');
-        
-        // Add a message to the UI
-        if (modelSelector) {
-            const message = document.createElement('p');
-            message.className = 'model-message';
-            message.style.color = 'var(--text-secondary)';
-            message.style.marginTop = '1rem';
-            message.textContent = 'No Ollama models found. Open PowerShell and run: ollama pull llama3.2';
-            modelSelector.appendChild(message);
-        }
-    }
-}
-
-function formatSize(bytes) {
-    if (bytes < 1024) return bytes + ' B';
-    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
-    if (bytes < 1024 * 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
-    return (bytes / (1024 * 1024 * 1024)).toFixed(1) + ' GB';
-}
-
-async function generateWithOllama(prompt, model) {
-    try {
-        const response = await fetch(`${BACKEND_API_URL}/generate`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                model: model,
-                prompt: `Create a detailed music production description for: ${prompt}. Include BPM, key, instrumentation suggestions, and structure.`
-            })
-        });
-        
-        const data = await response.json();
-        return data.response;
-    } catch (error) {
-        console.error('Ollama generation failed:', error);
-        return null;
-    }
-}
-
-// AI Generation - Optimized
-async function startGeneration() {
+function startGeneration() {
     const prompt = document.getElementById('track-prompt').value;
-    const genre = document.getElementById('genre-select').value;
-    const mood = document.getElementById('mood-select').value;
-    const bpm = document.getElementById('bpm-input').value;
-    const key = document.getElementById('key-select').value;
-    const duration = document.getElementById('duration-input').value;
-    
-    // Get selected model
-    const selectedModelCard = document.querySelector('.model-card.selected');
-    const selectedModel = selectedModelCard ? selectedModelCard.dataset.model : 'smart';
-    
     if (!prompt.trim()) {
         alert('Please describe your track');
         return;
     }
-    
-    // Show progress
-    const progressSection = document.getElementById('generation-progress');
-    const resultSection = document.getElementById('generated-result');
-    
-    if (progressSection) progressSection.style.display = 'block';
-    if (resultSection) resultSection.style.display = 'none';
-    
-    const progressFill = document.getElementById('progress-fill');
-    const progressStatus = document.querySelector('.progress-status');
-    
-    // If using Ollama model, generate with it
-    if (selectedModel !== 'smart') {
-        progressStatus.textContent = 'Connecting to Ollama...';
-        
-        const ollamaResponse = await generateWithOllama(prompt, selectedModel);
-        
-        if (ollamaResponse) {
-            progressStatus.textContent = 'AI response received. Processing...';
-            console.log('Ollama Response:', ollamaResponse);
-        }
-    }
-    
-    // Simulate generation progress
-    const stages = [
-        'Analyzing your request',
-        'Validating parameters',
-        'Routing to AI model',
-        'Generating audio',
-        'Processing waveform',
-        'Adding effects',
-        'Finalizing track'
-    ];
-    
-    let stageIndex = 0;
-    const progressInterval = setInterval(() => {
-        if (stageIndex < stages.length) {
-            if (progressStatus) progressStatus.textContent = stages[stageIndex];
-            if (progressFill) {
-                progressFill.style.width = `${((stageIndex + 1) / stages.length) * 100}%`;
-            }
-            stageIndex++;
-        } else {
-            clearInterval(progressInterval);
-            showGenerationResult(prompt, genre, bpm, key, duration, selectedModel);
-        }
-    }, 800);
-}
-
-function showGenerationResult(prompt, genre, bpm, key, duration, model = 'smart') {
-    const progressSection = document.getElementById('generation-progress');
-    const resultSection = document.getElementById('generated-result');
-    
-    if (progressSection) progressSection.style.display = 'none';
-    if (resultSection) resultSection.style.display = 'block';
-    
-    // Update result details
-    document.getElementById('result-title').textContent = 'Your Phonk Track';
-    document.getElementById('result-details').textContent = `${bpm} BPM • ${key} • ${Math.floor(duration / 60)}:${(duration % 60).toString().padStart(2, '0')}`;
-    document.getElementById('result-model').textContent = `Model: ${model === 'smart' ? 'Smart Model' : model}`;
-    document.getElementById('result-prompt').textContent = `"${prompt}"`;
-    
-    // Add to generated tracks
-    const newTrack = {
-        id: Date.now(),
-        title: 'Your Phonk Track',
-        creator: 'You',
-        genre: genre,
-        bpm: parseInt(bpm),
-        duration: `${Math.floor(duration / 60)}:${(duration % 60).toString().padStart(2, '0')}`,
-        isAIOriginal: true,
-        downloadAllowed: true,
-        model: model
-    };
-    
-    state.generatedTracks.push(newTrack);
+    alert('Audio generation is not connected in this build. No track was created.');
 }
 
 function loadPreset(preset) {
@@ -795,25 +630,6 @@ function loadPreset(preset) {
     if (promptInput && prompts[preset]) {
         promptInput.value = prompts[preset];
     }
-}
-
-function playGeneratedTrack() {
-    const lastGenerated = state.generatedTracks[state.generatedTracks.length - 1];
-    if (lastGenerated) {
-        playTrack(lastGenerated.id);
-    }
-}
-
-function saveTrack() {
-    alert('Track saved to your library');
-}
-
-function createVariation() {
-    alert('Creating variation of your track...');
-}
-
-function regenerateTrack() {
-    startGeneration();
 }
 
 // Library - Optimized
@@ -1148,212 +964,7 @@ if ('serviceWorker' in navigator) {
     // navigator.serviceWorker.register('/sw.js');
 }
 
-// ---------- AdMob Integration ----------
-const AdMobConfig = {
-    appId: 'ca-app-pub-6751037211810646~6370835710',
-    bannerId: 'ca-app-pub-6751037211810646/7948650423',
-    interstitialId: 'ca-app-pub-6751037211810646/1514094858',
-    rewardedId: 'ca-app-pub-6751037211810646/2029100178',
-    nativeId: 'ca-app-pub-6751037211810646/3685048341',
-    openId: 'ca-app-pub-6751037211810646/2496089751',
-    testMode: true
-};
-
-// Check if user should see ads
-function shouldShowAds() {
-    // Admins never see ads
-    if (state.isAdmin) return false;
-    
-    // Premium users never see ads
-    if (state.isPremium) return false;
-    
-    // Free users see ads
-    return true;
-}
-
-// Load banner ad
-function loadBannerAd() {
-    if (!shouldShowAds()) return;
-    
-    // In a real implementation, this would use the AdMob SDK
-    console.log('Loading banner ad:', AdMobConfig.bannerId);
-    
-    // Create banner ad container
-    const bannerContainer = document.createElement('div');
-    bannerContainer.id = 'banner-ad-container';
-    bannerContainer.style.cssText = `
-        position: fixed;
-        bottom: 80px;
-        left: 0;
-        right: 0;
-        height: 50px;
-        background: #1a1a24;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 998;
-        border-top: 1px solid #2a2a3a;
-    `;
-    bannerContainer.innerHTML = `
-        <div style="color: #a0a0b0; font-size: 0.875rem;">
-            ${AdMobConfig.testMode ? 'TEST AD - Banner' : 'Advertisement'}
-        </div>
-    `;
-    
-    // Only add if not already present
-    if (!document.getElementById('banner-ad-container')) {
-        document.body.appendChild(bannerContainer);
-        state.adLoaded = true;
-    }
-}
-
-// Load interstitial ad
-function loadInterstitialAd() {
-    if (!shouldShowAds()) return Promise.resolve(true);
-    
-    console.log('Loading interstitial ad:', AdMobConfig.interstitialId);
-    
-    // Simulate ad loading
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve(true);
-        }, 500);
-    });
-}
-
-// Show interstitial ad
-function showInterstitialAd() {
-    if (!shouldShowAds()) return Promise.resolve(true);
-    
-    console.log('Showing interstitial ad');
-    
-    // Show ad modal
-    const adModal = document.createElement('div');
-    adModal.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.9);
-        z-index: 2000;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    `;
-    adModal.innerHTML = `
-        <div style="background: #1a1a24; padding: 2rem; border-radius: 16px; max-width: 400px; text-align: center;">
-            <h3 style="margin-bottom: 1rem;">Advertisement</h3>
-            <div style="height: 250px; background: #2a2a3a; border-radius: 8px; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; color: #a0a0b0;">
-                ${AdMobConfig.testMode ? 'TEST AD - Interstitial' : 'Ad Content'}
-            </div>
-            <button id="close-ad-btn" style="padding: 0.75rem 2rem; background: linear-gradient(135deg, #9b59b6, #e91e63); color: white; border: none; border-radius: 8px; cursor: pointer;">Close Ad</button>
-        </div>
-    `;
-    
-    document.body.appendChild(adModal);
-    
-    return new Promise((resolve) => {
-        const closeBtn = document.getElementById('close-ad-btn');
-        closeBtn.addEventListener('click', () => {
-            document.body.removeChild(adModal);
-            resolve(true);
-        });
-        
-        // Auto-close after 5 seconds
-        setTimeout(() => {
-            if (document.body.contains(adModal)) {
-                document.body.removeChild(adModal);
-                resolve(true);
-            }
-        }, 5000);
-    });
-}
-
-// Load rewarded ad
-function loadRewardedAd() {
-    if (!shouldShowAds()) return Promise.resolve(true);
-    
-    console.log('Loading rewarded ad:', AdMobConfig.rewardedId);
-    
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve(true);
-        }, 500);
-    });
-}
-
-// Show rewarded ad
-function showRewardedAd(callback) {
-    if (!shouldShowAds()) {
-        if (callback) callback(true);
-        return;
-    }
-    
-    console.log('Showing rewarded ad');
-    
-    const adModal = document.createElement('div');
-    adModal.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.9);
-        z-index: 2000;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    `;
-    adModal.innerHTML = `
-        <div style="background: #1a1a24; padding: 2rem; border-radius: 16px; max-width: 400px; text-align: center;">
-            <h3 style="margin-bottom: 1rem;">Watch Ad for Free Generation</h3>
-            <div style="height: 250px; background: #2a2a3a; border-radius: 8px; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; color: #a0a0b0;">
-                ${AdMobConfig.testMode ? 'TEST AD - Rewarded' : 'Ad Content'}
-            </div>
-            <button id="claim-reward-btn" style="padding: 0.75rem 2rem; background: linear-gradient(135deg, #9b59b6, #e91e63); color: white; border: none; border-radius: 8px; cursor: pointer;">Claim Reward</button>
-        </div>
-    `;
-    
-    document.body.appendChild(adModal);
-    
-    const claimBtn = document.getElementById('claim-reward-btn');
-    claimBtn.addEventListener('click', () => {
-        document.body.removeChild(adModal);
-        if (callback) callback(true);
-    });
-}
-
-// Load native ad
-function loadNativeAd(containerId) {
-    if (!shouldShowAds()) return;
-    
-    console.log('Loading native ad:', AdMobConfig.nativeId);
-    
-    const container = document.getElementById(containerId);
-    if (container) {
-        container.innerHTML = `
-            <div style="background: #1a1a24; border: 1px solid #2a2a3a; border-radius: 12px; padding: 1rem; margin: 1rem 0;">
-                <div style="display: flex; gap: 1rem; align-items: center;">
-                    <div style="width: 60px; height: 60px; background: #2a2a3a; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #a0a0b0; font-size: 0.75rem;">
-                        Ad
-                    </div>
-                    <div style="flex: 1;">
-                        <h4 style="margin-bottom: 0.25rem; font-size: 0.875rem;">Sponsored</h4>
-                        <p style="color: #a0a0b0; font-size: 0.75rem;">${AdMobConfig.testMode ? 'TEST AD - Native' : 'Ad content here'}</p>
-                    </div>
-                </div>
-            </div>
-        `;
-    }
-}
-
-// Remove ads (for premium/admin)
 function removeAds() {
-    const bannerContainer = document.getElementById('banner-ad-container');
-    if (bannerContainer) {
-        bannerContainer.remove();
-    }
     state.adsEnabled = false;
 }
 
@@ -1432,11 +1043,4 @@ function activateAdmin() {
     removeAds();
     document.body.classList.add('ads-free');
     console.log('Admin activated - unlimited access');
-}
-
-// Initialize ads on app load
-function initializeAds() {
-    if (shouldShowAds()) {
-        loadBannerAd();
-    }
 }

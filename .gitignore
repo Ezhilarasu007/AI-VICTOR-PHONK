@@ -61,7 +61,6 @@ temp/
 
 # Important sensitive files
 server.js
-package.json (will have backend configs)
 config/
 secrets/
 *.key
@@ -74,3 +73,12 @@ admin-secrets.json
 
 # Ollama
 ollama-models/
+
+# Extra files
+nul
+original-demo/
+verification/
+js/
+DEPLOYMENT_NOTES.md
+ADSENSE_DEPLOYMENT.md
+android/.gradle/

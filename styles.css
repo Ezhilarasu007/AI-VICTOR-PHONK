@@ -5,18 +5,22 @@
 
 /* ---------- CSS Variables ---------- */
 :root {
-    --primary-purple: #9b59b6;
-    --primary-pink: #e91e63;
-    --primary-cyan: #00bcd4;
-    --dark-bg: #0a0a0f;
-    --dark-surface: #12121a;
-    --dark-card: #1a1a24;
-    --dark-border: #2a2a3a;
-    --text-primary: #ffffff;
-    --text-secondary: #a0a0b0;
-    --glow-purple: rgba(155, 89, 182, 0.5);
-    --glow-pink: rgba(233, 30, 99, 0.5);
-    --glow-cyan: rgba(0, 188, 212, 0.5);
+    --primary-blue: #3b82f6;
+    --primary-red: #ef4444;
+    --primary-cyan: #22d3ee;
+    --primary-purple: var(--primary-blue);
+    --primary-pink: var(--primary-red);
+    --dark-bg: #030712;
+    --dark-surface: #0b1220;
+    --dark-card: #111827;
+    --dark-border: #1f2937;
+    --text-primary: #eef6ff;
+    --text-secondary: #b5c7e6;
+    --glow-blue: rgba(59, 130, 246, 0.4);
+    --glow-red: rgba(239, 68, 68, 0.4);
+    --glow-purple: var(--glow-blue);
+    --glow-pink: var(--glow-red);
+    --glow-cyan: rgba(34, 211, 238, 0.4);
     
     /* Spacing */
     --spacing-xs: 0.5rem;
@@ -83,10 +87,10 @@ body::before {
     width: 100%;
     height: 100%;
     background:
-        radial-gradient(circle at 20% 80%, var(--glow-purple) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, var(--glow-pink) 0%, transparent 50%),
+        radial-gradient(circle at 20% 80%, var(--glow-blue) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, var(--glow-red) 0%, transparent 50%),
         radial-gradient(circle at 40% 40%, var(--glow-cyan) 0%, transparent 50%);
-    opacity: 0.3;
+    opacity: 0.32;
     pointer-events: none;
     z-index: 0;
     will-change: opacity;
@@ -135,7 +139,7 @@ a {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--primary-purple);
+    background: var(--primary-blue);
 }
 
 /* ---------- Navigation ---------- */
@@ -173,14 +177,14 @@ a {
 
 .brand-icon {
     font-size: 1.5rem;
-    color: var(--primary-purple);
-    text-shadow: 0 0 20px var(--glow-purple);
+    color: var(--primary-blue);
+    text-shadow: 0 0 20px var(--glow-blue);
 }
 
 .brand-text {
     font-size: clamp(1rem, 2.5vw, 1.2rem);
     font-weight: bold;
-    background: linear-gradient(135deg, var(--primary-purple), var(--primary-pink), var(--primary-cyan));
+    background: linear-gradient(135deg, var(--primary-blue), var(--primary-red), var(--primary-cyan));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -210,8 +214,8 @@ a {
 
 .nav-btn.active {
     color: var(--text-primary);
-    background: linear-gradient(135deg, var(--primary-purple), var(--primary-pink));
-    box-shadow: 0 0 20px var(--glow-purple);
+    background: linear-gradient(135deg, var(--primary-blue), var(--primary-red));
+    box-shadow: 0 0 20px var(--glow-blue);
 }
 
 .nav-menu-toggle {
@@ -2128,10 +2132,7 @@ a {
     .navbar,
     .mini-player,
     .full-player,
-    .modal,
-    .adsense-banner-top,
-    .adsense-banner-bottom,
-    .adsense-in-article {
+    .modal {
         display: none !important;
     }
     
@@ -2139,42 +2140,4 @@ a {
         background: white;
         color: black;
     }
-}
-
-/* ---------- AdSense Styles ---------- */
-.adsense-banner-top {
-    width: 100%;
-    max-width: 1400px;
-    margin: 0 auto var(--spacing-lg);
-    padding: 0 var(--spacing-md);
-}
-
-.adsense-banner-bottom {
-    width: 100%;
-    max-width: 1400px;
-    margin: var(--spacing-lg) auto 80px;
-    padding: 0 var(--spacing-md);
-}
-
-.adsense-in-article {
-    width: 100%;
-    max-width: 728px;
-    margin: var(--spacing-xl) auto;
-    padding: var(--spacing-md) 0;
-}
-
-.adsbygoogle {
-    background: var(--dark-surface);
-    border-radius: var(--radius-md);
-    min-height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Hide ads for premium users */
-body.ads-free .adsense-banner-top,
-body.ads-free .adsense-banner-bottom,
-body.ads-free .adsense-in-article {
-    display: none !important;
 }

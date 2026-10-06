@@ -3,16 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <meta name="description" content="Create and discover original Phonk music with AI. Your Phonk. Your Sound.">
+    <meta name="description" content="Explore Phonk music, build drum patterns, and manage a personal music library with AI Victor Phonk.">
     <meta name="theme-color" content="#07070d">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google-adsense-account" content="ca-pub-6751037211810646">
+    <meta name="google-site-verification" content="PhqDCraPVcuNOgwktVSw2azc0jZV8jK2I4HSxFUygCE">
+    <meta name="google-site-verification" content="-hxHMl8BRIYwImmc-NNF9-aLjqu2wBFwQkdTh_IsHG8">
     <title>AI Victor Phonk - Create. Feel. Play. Victorize.</title>
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://aivictorphonk.vercel.app/">
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml">
     <link rel="stylesheet" href="styles.css">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6751037211810646"
-     crossorigin="anonymous"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -32,19 +35,6 @@
             <button class="nav-menu-toggle" aria-label="Toggle menu">☰</button>
         </div>
     </nav>
-
-    <!-- AdSense Banner Ad (Top) -->
-    <div class="adsense-banner-top">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-6751037211810646"
-             data-ad-slot="7948650423"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-    </div>
 
     <!-- Main Content -->
     <main class="main-content">
@@ -71,7 +61,7 @@
                             <span class="btn-icon">✦</span>
                             Create Track
                         </button>
-                        <span class="btn-subtitle">AI music generation</span>
+                        <span class="btn-subtitle">Build beats and manage your music</span>
                         <button class="btn btn-secondary btn-large" onclick="showSection('discover')">
                             <span class="btn-icon">🎵</span>
                             Discover Music
@@ -120,30 +110,18 @@
 
             <!-- Featured Music -->
             <div class="featured-section">
-                <h3 class="section-title">Trending Now</h3>
+                <h3 class="section-title">Sample Catalogue</h3>
+                <p class="section-description">Example track metadata only; this build does not include audio recordings.</p>
                 <div class="music-grid" id="trending-music"></div>
             </div>
 
-            <!-- AdSense In-Article Ad -->
-            <div class="adsense-in-article">
-                <ins class="adsbygoogle"
-                     style="display:block; text-align:center;"
-                     data-ad-layout="in-article"
-                     data-ad-format="fluid"
-                     data-ad-client="ca-pub-6751037211810646"
-                     data-ad-slot="1514094858"></ins>
-                <script>
-                     (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-            </div>
-
             <div class="featured-section">
-                <h3 class="section-title">New Releases</h3>
+                <h3 class="section-title">More Sample Entries</h3>
                 <div class="music-grid" id="new-releases"></div>
             </div>
 
             <div class="featured-section">
-                <h3 class="section-title">AI Originals</h3>
+                <h3 class="section-title">Example Entries</h3>
                 <div class="music-grid" id="ai-originals"></div>
             </div>
         </section>
@@ -169,25 +147,12 @@
                 <button class="tab-btn" data-category="chill">Chill</button>
                 <button class="tab-btn" data-category="gym">Gym</button>
                 <button class="tab-btn" data-category="instrumental">Instrumental</button>
-                <button class="tab-btn" data-category="ai-originals">AI Originals</button>
+                <button class="tab-btn" data-category="ai-originals">Sample Catalogue</button>
             </div>
 
             <div class="discover-content">
                 <h3 class="section-title">Phonk Essentials</h3>
                 <div class="music-grid" id="phonk-essentials"></div>
-
-                <!-- AdSense In-Article Ad -->
-                <div class="adsense-in-article">
-                    <ins class="adsbygoogle"
-                         style="display:block; text-align:center;"
-                         data-ad-layout="in-article"
-                         data-ad-format="fluid"
-                         data-ad-client="ca-pub-6751037211810646"
-                         data-ad-slot="2496089751"></ins>
-                    <script>
-                         (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
-                </div>
 
                 <h3 class="section-title">Brazilian Phonk</h3>
                 <div class="music-grid" id="brazilian-phonk"></div>
@@ -407,26 +372,7 @@
                     <div class="form-group">
                         <label>AI Model</label>
                         <div class="model-selector">
-                            <div class="model-card selected" data-model="smart">
-                                <h4>Smart Model</h4>
-                                <p>Auto-selects best model for your request</p>
-                            </div>
-                            <div class="model-card" data-model="fast">
-                                <h4>Fast Creator</h4>
-                                <p>Best for quick ideas</p>
-                            </div>
-                            <div class="model-card" data-model="studio">
-                                <h4>Studio Quality</h4>
-                                <p>Best for detailed full tracks</p>
-                            </div>
-                            <div class="model-card" data-model="instrumental">
-                                <h4>Instrumental Pro</h4>
-                                <p>Best for instrumental compositions</p>
-                            </div>
-                            <div class="model-card" data-model="beat">
-                                <h4>Beat Engine</h4>
-                                <p>Best for drums and loops</p>
-                            </div>
+                            <p class="model-message" role="status">Audio generation is not connected in this build. Your prompt will not be represented as a finished track.</p>
                         </div>
                     </div>
 
@@ -437,79 +383,7 @@
                 </div>
             </div>
 
-            <!-- AdSense In-Article Ad -->
-            <div class="adsense-in-article">
-                <ins class="adsbygoogle"
-                     style="display:block; text-align:center;"
-                     data-ad-layout="in-article"
-                     data-ad-format="fluid"
-                     data-ad-client="ca-pub-6751037211810646"
-                     data-ad-slot="2029100178"></ins>
-                <script>
-                     (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-            </div>
-
             <!-- Generation Progress -->
-            <div class="generation-progress" id="generation-progress" style="display: none;">
-                <div class="progress-container">
-                    <div class="progress-artwork">
-                        <div class="artwork-placeholder">
-                            <div class="artwork-gradient"></div>
-                            <div class="loading-spinner"></div>
-                        </div>
-                    </div>
-                    <h3>Creating your track...</h3>
-                    <p class="progress-status">Analyzing your request</p>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progress-fill"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Generated Result -->
-            <div class="generated-result" id="generated-result" style="display: none;">
-                <div class="result-card">
-                    <div class="result-artwork">
-                        <div class="artwork-placeholder">
-                            <div class="artwork-gradient"></div>
-                        </div>
-                    </div>
-                    <div class="result-info">
-                        <span class="badge ai-original">AI Original</span>
-                        <h3 id="result-title">Your Phonk Track</h3>
-                        <p id="result-details">140 BPM • C Minor • 2:00</p>
-                        <p id="result-model">Model: Studio Quality</p>
-                        <p id="result-prompt" class="result-prompt"></p>
-                    </div>
-                    <div class="result-actions">
-                        <button class="btn btn-primary" onclick="playGeneratedTrack()">
-                            <span class="btn-icon">▶</span>
-                            Play
-                        </button>
-                        <button class="btn btn-secondary" onclick="saveTrack()">
-                            <span class="btn-icon">💾</span>
-                            Save
-                        </button>
-                        <button class="btn btn-secondary" onclick="downloadTrack()">
-                            <span class="btn-icon">⬇️</span>
-                            Download
-                        </button>
-                        <button class="btn btn-secondary" onclick="showSection('editor')">
-                            <span class="btn-icon">✂️</span>
-                            Edit
-                        </button>
-                        <button class="btn btn-secondary" onclick="createVariation()">
-                            <span class="btn-icon">🔄</span>
-                            Variation
-                        </button>
-                        <button class="btn btn-secondary" onclick="regenerateTrack()">
-                            <span class="btn-icon">✦</span>
-                            Regenerate
-                        </button>
-                    </div>
-                </div>
-            </div>
         </section>
 
         <!-- Library Section -->
@@ -558,23 +432,11 @@
                 </div>
                 <div class="library-tab" id="generated-tab">
                     <div class="music-grid" id="generated-grid">
-                        <p class="empty-state">Your AI-generated tracks will appear here.</p>
+                        <p class="empty-state">No generated tracks. Audio generation is not connected in this build.</p>
                     </div>
                 </div>
             </div>
 
-            <!-- AdSense In-Article Ad -->
-            <div class="adsense-in-article">
-                <ins class="adsbygoogle"
-                     style="display:block; text-align:center;"
-                     data-ad-layout="in-article"
-                     data-ad-format="fluid"
-                     data-ad-client="ca-pub-6751037211810646"
-                     data-ad-slot="3685048341"></ins>
-                <script>
-                     (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-            </div>
         </section>
 
         <!-- Drum Lab Section -->
@@ -923,19 +785,19 @@
                 <button class="btn btn-secondary" onclick="showSection('settings')">Back</button>
             </div>
             <div class="legal-content">
-                <p>Last updated: October 5, 2026</p>
+                <p>Last updated: October 6, 2026</p>
                 <h3>1. Information We Collect</h3>
-                <p>We collect information you provide directly, including account information, prompts, uploaded audio, generated audio, playlists, favorites, and downloads.</p>
+                <p>This build has no account system or application backend. It does not send your prompts, library, or other app data to an AI provider or store them on a server. App state is held in memory in your browser and is cleared when the page is closed.</p>
                 <h3>2. How We Use Your Information</h3>
-                <p>We use your information to provide our services, improve our AI models, process payments, and ensure security.</p>
+                <p>This build does not run AI audio generation, process payments, or include Google Analytics. Your browser may separately send standard connection data to the hosting provider when loading this site.</p>
                 <h3>3. Data Sharing</h3>
-                <p>We share data with AI providers for music generation and with service providers for infrastructure. We do not sell your personal data.</p>
+                <p>No app data is shared with an AI or advertising provider by this build. Third-party hosting and browser services are governed by their own privacy terms.</p>
                 <h3>4. Data Security</h3>
-                <p>We implement industry-standard security measures to protect your data.</p>
+                <p>Because there is no account or backend, do not enter sensitive personal information into this demo.</p>
                 <h3>5. Your Rights</h3>
-                <p>You have the right to access, correct, delete, or export your data.</p>
+                <p>Since this build does not retain app data on a server, closing the page clears its in-memory app state.</p>
                 <h3>6. Contact</h3>
-                <p>For privacy inquiries, contact us at privacy@aivictorphonk.com</p>
+                <p>For questions about this project, use the contact options on the <a href="https://github.com/Ezhilarasu007/AI-VICTOR-PHONK">project repository</a>.</p>
             </div>
         </section>
 
@@ -946,17 +808,17 @@
                 <button class="btn btn-secondary" onclick="showSection('settings')">Back</button>
             </div>
             <div class="legal-content">
-                <p>Last updated: October 5, 2026</p>
+                <p>Last updated: October 6, 2026</p>
                 <h3>1. Acceptance of Terms</h3>
-                <p>By using AI Victor Phonk, you agree to these terms.</p>
+                <p>AI Victor Phonk is provided as a browser-based demonstration. By using it, you agree not to misuse the site or infringe third-party rights.</p>
                 <h3>2. Account Responsibilities</h3>
-                <p>You are responsible for maintaining the security of your account.</p>
+                <p>This build does not provide user accounts, subscriptions, or payment processing.</p>
                 <h3>3. Music Generation</h3>
-                <p>AI-generated music is original and you own the rights to use it.</p>
+                <p>AI audio generation is not connected in this build. No generated audio or ownership rights are promised.</p>
                 <h3>4. User Content</h3>
-                <p>You retain ownership of content you upload, but grant us license to process it.</p>
+                <p>This build does not upload or process audio or other user content.</p>
                 <h3>5. Copyright</h3>
-                <p>All music on the platform is either AI-generated, properly licensed, or public domain.</p>
+                <p>Track cards shown in the demo are sample catalogue metadata and do not include playable recordings or establish licensing rights.</p>
                 <h3>6. Prohibited Activities</h3>
                 <p>You may not use the platform for illegal purposes or to infringe copyrights.</p>
                 <h3>7. Termination</h3>
@@ -1330,19 +1192,6 @@
             </div>
             <button class="mini-player-expand" onclick="showFullPlayer()" aria-label="Expand player">↑</button>
         </div>
-    </div>
-
-    <!-- AdSense Banner Ad (Bottom) -->
-    <div class="adsense-banner-bottom">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-6751037211810646"
-             data-ad-slot="7948650423"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
     </div>
 
     <!-- Full Player -->
