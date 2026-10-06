@@ -19,10 +19,18 @@ const state = {
     reduceMotion: false,
     isPremium: false,
     isAdmin: false,
-    adsEnabled: false,
+    adsEnabled: true,
     adLoaded: false,
     theme: 'default',
-    customWallpaper: null
+    customWallpaper: null,
+    // Revenue and Ads
+    dailyAdImpressions: 0,
+    totalRevenue: 0.00,
+    cpmRate: 2.50,
+    dailyVideoLimit: 20,
+    dailyVideosGenerated: 0,
+    audioLimit: 'unlimited',
+    partners: []
 };
 
 // Sample Music Data
@@ -244,6 +252,7 @@ function initializeApp() {
     populateMusicSections();
     checkReduceMotionPreference();
     initializeThemeSwitcher();
+    initializeAdTracking();
 
     // Debounced greeting update
     let greetingTimeout;
@@ -1124,21 +1133,100 @@ function saveEdit() {
 }
 
 // Admin
-function adminLogin() {
-    const username = document.getElementById('admin-username').value;
-    const password = document.getElementById('admin-password').value;
-    
-    if (username && password) {
+function adminLoginWithPin() {
+    const pin = document.getElementById('admin-pin').value;
+
+    // Check if PIN is correct (use a secure PIN in production)
+    const ADMIN_PIN = '1234'; // Change this to your secure PIN
+
+    if (pin === ADMIN_PIN) {
         state.adminLoggedIn = true;
+        state.isAdmin = true;
+        state.adsEnabled = false; // Admin sees no ads
         showSection('admin-dashboard');
+        loadAdminData();
     } else {
-        alert('Access Denied');
+        alert('Access Denied: Incorrect PIN');
+        document.getElementById('admin-pin').value = '';
     }
 }
 
 function adminLogout() {
     state.adminLoggedIn = false;
+    state.isAdmin = false;
+    state.adsEnabled = true; // Re-enable ads on logout
     showSection('settings');
+}
+
+function loadAdminData() {
+    // Load revenue data
+    const revenueDisplay = document.getElementById('admin-revenue');
+    if (revenueDisplay) {
+        revenueDisplay.textContent = `$${state.totalRevenue.toFixed(2)}`;
+    }
+
+    // Load ad impressions
+    const impressionsDisplay = document.getElementById('admin-impressions');
+    if (impressionsDisplay) {
+        impressionsDisplay.textContent = state.dailyAdImpressions;
+    }
+
+    // Load CPM rate
+    const cpmDisplay = document.getElementById('admin-cpm');
+    if (cpmDisplay) {
+        cpmDisplay.textContent = `$${state.cpmRate.toFixed(2)}`;
+    }
+
+    // Load daily video limit
+    const videoLimitDisplay = document.getElementById('admin-video-limit');
+    if (videoLimitDisplay) {
+        videoLimitDisplay.textContent = `${state.dailyVideosGenerated} / ${state.dailyVideoLimit}`;
+    }
+
+    // Load partners
+    const partnersDisplay = document.getElementById('admin-partners');
+    if (partnersDisplay) {
+        partnersDisplay.textContent = state.partners.length;
+    }
+}
+
+function updateRevenue() {
+    // Calculate revenue based on CPM
+    const revenue = (state.dailyAdImpressions / 1000) * state.cpmRate;
+    state.totalRevenue += revenue;
+    loadAdminData();
+}
+
+function requestWithdrawal() {
+    if (state.totalRevenue < 10) {
+        alert('Minimum withdrawal amount is $10.00');
+        return;
+    }
+
+    const amount = prompt(`Enter withdrawal amount (Available: $${state.totalRevenue.toFixed(2)})`);
+    if (amount && !isNaN(amount)) {
+        const withdrawalAmount = parseFloat(amount);
+        if (withdrawalAmount <= state.totalRevenue) {
+            state.totalRevenue -= withdrawalAmount;
+            alert(`Withdrawal of $${withdrawalAmount.toFixed(2)} requested successfully!`);
+            loadAdminData();
+        } else {
+            alert('Insufficient funds');
+        }
+    }
+}
+
+function addPartner() {
+    const partnerName = prompt('Enter partner name:');
+    if (partnerName) {
+        state.partners.push({
+            name: partnerName,
+            joined: new Date().toISOString(),
+            revenue: 0
+        });
+        alert(`Partner "${partnerName}" added successfully!`);
+        loadAdminData();
+    }
 }
 
 function switchAdminTab(tabId) {
@@ -1303,6 +1391,56 @@ function clearWallpaper() {
     body.classList.remove('has-wallpaper');
     body.style.backgroundImage = '';
     body.style.removeProperty('--wallpaper-image');
+}
+
+// Ad Tracking
+function initializeAdTracking() {
+    // Load saved data
+    const savedImpressions = localStorage.getItem('dailyAdImpressions');
+    const savedRevenue = localStorage.getItem('totalRevenue');
+    const savedVideos = localStorage.getItem('dailyVideosGenerated');
+
+    if (savedImpressions) state.dailyAdImpressions = parseInt(savedImpressions);
+    if (savedRevenue) state.totalRevenue = parseFloat(savedRevenue);
+    if (savedVideos) state.dailyVideosGenerated = parseInt(savedVideos);
+
+    // Reset daily counters at midnight
+    const lastReset = localStorage.getItem('lastAdReset');
+    const today = new Date().toDateString();
+
+    if (lastReset !== today) {
+        state.dailyAdImpressions = 0;
+        state.dailyVideosGenerated = 0;
+        localStorage.setItem('dailyAdImpressions', '0');
+        localStorage.setItem('dailyVideosGenerated', '0');
+        localStorage.setItem('lastAdReset', today);
+    }
+
+    // Track ad impressions
+    if (state.adsEnabled && !state.isAdmin) {
+        trackAdImpression();
+    }
+}
+
+function trackAdImpression() {
+    state.dailyAdImpressions++;
+    localStorage.setItem('dailyAdImpressions', state.dailyAdImpressions.toString());
+
+    // Update revenue
+    const revenueIncrement = (1 / 1000) * state.cpmRate;
+    state.totalRevenue += revenueIncrement;
+    localStorage.setItem('totalRevenue', state.totalRevenue.toFixed(2));
+}
+
+function trackVideoGeneration() {
+    if (state.dailyVideosGenerated >= state.dailyVideoLimit) {
+        alert('Daily video limit reached. Come back tomorrow!');
+        return false;
+    }
+
+    state.dailyVideosGenerated++;
+    localStorage.setItem('dailyVideosGenerated', state.dailyVideosGenerated.toString());
+    return true;
 }
 
 // Close modals on outside click - Optimized with event delegation

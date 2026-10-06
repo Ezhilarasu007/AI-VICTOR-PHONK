@@ -24,6 +24,8 @@
         gtag('config', 'G-XTPF8EHFLP');
         gtag('config', 'GT-K4LX6TSN', { send_page_view: false });
     </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6751037211810646"
+         crossorigin="anonymous"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -43,6 +45,16 @@
             <button class="nav-menu-toggle" aria-label="Toggle menu">☰</button>
         </div>
     </nav>
+
+    <!-- Top Banner Ad -->
+    <div class="ad-banner-top" id="ad-banner-top">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6751037211810646"
+             data-ad-slot="7948650423"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+    </div>
 
     <!-- Main Content -->
     <main class="main-content">
@@ -945,16 +957,13 @@
         <section id="admin-login" class="section">
             <div class="admin-login-container">
                 <h2>Admin Access</h2>
+                <p class="admin-login-subtitle">Enter your PIN to access the dashboard</p>
                 <div class="admin-login-form">
                     <div class="form-group">
-                        <label for="admin-username">Username</label>
-                        <input type="text" id="admin-username" placeholder="Enter admin username">
+                        <label for="admin-pin">Admin PIN</label>
+                        <input type="password" id="admin-pin" placeholder="Enter 4-digit PIN" maxlength="4" pattern="[0-9]{4}">
                     </div>
-                    <div class="form-group">
-                        <label for="admin-password">Password</label>
-                        <input type="password" id="admin-password" placeholder="Enter admin password">
-                    </div>
-                    <button class="btn btn-primary" onclick="adminLogin()">Login</button>
+                    <button class="btn btn-primary" onclick="adminLoginWithPin()">Login</button>
                     <button class="btn btn-secondary" onclick="showSection('settings')">Cancel</button>
                 </div>
             </div>
@@ -983,29 +992,36 @@
                     <h3>Dashboard Overview</h3>
                     <div class="admin-stats">
                         <div class="stat-card">
-                            <h4>Total Users</h4>
-                            <p class="stat-value">1,234</p>
+                            <h4>Total Revenue</h4>
+                            <p class="stat-value" id="admin-revenue">$0.00</p>
                         </div>
                         <div class="stat-card">
-                            <h4>Active Users</h4>
-                            <p class="stat-value">567</p>
+                            <h4>Ad Impressions</h4>
+                            <p class="stat-value" id="admin-impressions">0</p>
                         </div>
                         <div class="stat-card">
-                            <h4>Total Tracks</h4>
-                            <p class="stat-value">8,901</p>
+                            <h4>CPM Rate</h4>
+                            <p class="stat-value" id="admin-cpm">$2.50</p>
                         </div>
                         <div class="stat-card">
-                            <h4>Generations</h4>
-                            <p class="stat-value">2,345</p>
+                            <h4>Daily Videos</h4>
+                            <p class="stat-value" id="admin-video-limit">0 / 20</p>
                         </div>
                         <div class="stat-card">
-                            <h4>Track Plays</h4>
-                            <p class="stat-value">45,678</p>
+                            <h4>Partners</h4>
+                            <p class="stat-value" id="admin-partners">0</p>
                         </div>
                         <div class="stat-card">
-                            <h4>Downloads</h4>
-                            <p class="stat-value">3,456</p>
+                            <h4>Audio Generated</h4>
+                            <p class="stat-value">Unlimited</p>
                         </div>
+                    </div>
+
+                    <div class="admin-actions">
+                        <h3>Revenue Actions</h3>
+                        <button class="btn btn-primary" onclick="updateRevenue()">Update Revenue</button>
+                        <button class="btn btn-success" onclick="requestWithdrawal()">Request Withdrawal</button>
+                        <button class="btn btn-secondary" onclick="addPartner()">Add Partner</button>
                     </div>
                 </div>
 
@@ -1282,7 +1298,16 @@
         </div>
     </div>
 
-    <script type="module" src="/firebase-init.js"></script>
+    <!-- Bottom Banner Ad -->
+    <div class="ad-banner-bottom" id="ad-banner-bottom">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6751037211810646"
+             data-ad-slot="7948650423"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>

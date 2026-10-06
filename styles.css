@@ -236,6 +236,45 @@ a {
     transform: translateZ(0);
 }
 
+/* Ad Banners */
+.ad-banner-top {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    background: var(--dark-bg);
+    padding: var(--spacing-sm);
+    text-align: center;
+    border-bottom: 1px solid var(--dark-border);
+}
+
+.ad-banner-bottom {
+    position: fixed;
+    bottom: 60px;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    background: var(--dark-bg);
+    padding: var(--spacing-sm);
+    text-align: center;
+    border-top: 1px solid var(--dark-border);
+}
+
+.ad-in-content {
+    margin: var(--spacing-lg) 0;
+    padding: var(--spacing-md);
+    background: var(--dark-surface);
+    border: 1px solid var(--dark-border);
+    border-radius: var(--radius-md);
+    text-align: center;
+}
+
+.main-content {
+    margin-top: 120px;
+    margin-bottom: 120px;
+}
+
 .nav-container {
     max-width: 1400px;
     margin: 0 auto;
@@ -501,6 +540,17 @@ a {
 
 .btn-primary:active {
     transform: translateY(0);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
+}
+
+.btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 30px rgba(16, 185, 129, 0.5);
 }
 
 .btn-secondary {
@@ -1733,6 +1783,25 @@ a {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+}
+
+.admin-actions {
+    margin-top: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    background: var(--dark-surface);
+    border: 1px solid var(--dark-border);
+    border-radius: var(--radius-lg);
+}
+
+.admin-actions h3 {
+    margin-bottom: var(--spacing-md);
+    color: var(--text-primary);
+}
+
+.admin-actions .btn {
+    margin-right: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
 }
 
 .stat-card {
