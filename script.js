@@ -359,9 +359,6 @@ function createMusicCard(track) {
             <div class="artwork-placeholder">
                 <div class="artwork-gradient"></div>
             </div>
-            <div class="music-card-overlay">
-                <span class="music-card-play">▶</span>
-            </div>
         </div>
         <div class="music-card-info">
             <h4 class="music-card-title">${track.title}</h4>
@@ -371,12 +368,9 @@ function createMusicCard(track) {
                 <span>${track.duration}</span>
                 <span>${track.bpm} BPM</span>
             </div>
-            ${track.isAIOriginal ? '<span class="badge ai-original">AI Original</span>' : ''}
+            <span class="badge">Sample data</span>
             <div class="music-card-controls">
-                <button class="music-card-btn" data-action="play" data-id="${track.id}" aria-label="Play">▶</button>
                 <button class="music-card-btn" data-action="favorite" data-id="${track.id}" aria-label="Favorite">♡</button>
-                ${track.downloadAllowed ? `<button class="music-card-btn" data-action="download" data-id="${track.id}" aria-label="Download">⬇️</button>` : ''}
-                <button class="music-card-btn" data-action="more" data-id="${track.id}" aria-label="More">⋮</button>
             </div>
         </div>
     `;
@@ -389,22 +383,11 @@ function createMusicCard(track) {
             const id = parseInt(btn.dataset.id);
             
             switch (action) {
-                case 'play':
-                    playTrack(id);
-                    break;
                 case 'favorite':
                     toggleFavorite(id);
                     break;
-                case 'download':
-                    downloadTrack(id);
-                    break;
-                case 'more':
-                    // Show more options
-                    break;
             }
             e.stopPropagation();
-        } else {
-            playTrack(track.id);
         }
     }, { passive: true });
     
