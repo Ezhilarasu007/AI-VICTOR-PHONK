@@ -724,6 +724,23 @@
                         <label for="dark-mode">Dark Mode</label>
                         <input type="checkbox" id="dark-mode" checked>
                     </div>
+                    <div class="settings-item">
+                        <label>Theme Color</label>
+                        <div class="theme-switcher">
+                            <button class="theme-btn active" data-theme="default">Default</button>
+                            <button class="theme-btn" data-theme="red">Red</button>
+                            <button class="theme-btn" data-theme="black">Black</button>
+                            <button class="theme-btn" data-theme="blue">Blue</button>
+                            <button class="theme-btn" data-theme="pink">Pink</button>
+                        </div>
+                    </div>
+                    <div class="settings-item">
+                        <label for="wallpaper-upload">Custom Wallpaper</label>
+                        <input type="file" id="wallpaper-upload" accept="image/*" onchange="setWallpaper(event)">
+                    </div>
+                    <div class="settings-item">
+                        <button class="btn btn-secondary" onclick="clearWallpaper()">Clear Wallpaper</button>
+                    </div>
                 </div>
 
                 <div class="settings-section">

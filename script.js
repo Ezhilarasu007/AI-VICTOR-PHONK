@@ -20,7 +20,9 @@ const state = {
     isPremium: false,
     isAdmin: false,
     adsEnabled: false,
-    adLoaded: false
+    adLoaded: false,
+    theme: 'default',
+    customWallpaper: null
 };
 
 // Sample Music Data
@@ -32,9 +34,10 @@ const sampleTracks = [
         genre: "Brazilian Phonk",
         bpm: 140,
         duration: "2:45",
-        artwork: "assets/cover-brazilian.png",
-        isAIOriginal: false,
-        downloadAllowed: false
+        artwork: null,
+        isAIOriginal: true,
+        downloadAllowed: true,
+        playCount: 1234
     },
     {
         id: 2,
@@ -43,9 +46,10 @@ const sampleTracks = [
         genre: "Drift Phonk",
         bpm: 145,
         duration: "3:12",
-        artwork: "assets/cover-dark.png",
-        isAIOriginal: false,
-        downloadAllowed: false
+        artwork: null,
+        isAIOriginal: true,
+        downloadAllowed: true,
+        playCount: 892
     },
     {
         id: 3,
@@ -54,9 +58,10 @@ const sampleTracks = [
         genre: "Aggressive Phonk",
         bpm: 150,
         duration: "2:30",
-        artwork: "assets/cover-808.png",
-        isAIOriginal: false,
-        downloadAllowed: false
+        artwork: null,
+        isAIOriginal: true,
+        downloadAllowed: true,
+        playCount: 2105
     },
     {
         id: 4,
@@ -65,9 +70,10 @@ const sampleTracks = [
         genre: "Phonk",
         bpm: 138,
         duration: "3:00",
-        artwork: "assets/cover-dark.png",
-        isAIOriginal: false,
-        downloadAllowed: false
+        artwork: null,
+        isAIOriginal: true,
+        downloadAllowed: true,
+        playCount: 756
     },
     {
         id: 5,
@@ -76,9 +82,10 @@ const sampleTracks = [
         genre: "Night Drive",
         bpm: 142,
         duration: "2:55",
-        artwork: "assets/cover-brazilian.png",
-        isAIOriginal: false,
-        downloadAllowed: false
+        artwork: null,
+        isAIOriginal: true,
+        downloadAllowed: true,
+        playCount: 1890
     },
     {
         id: 6,
@@ -87,9 +94,10 @@ const sampleTracks = [
         genre: "Gym Phonk",
         bpm: 155,
         duration: "3:20",
-        artwork: "assets/cover-808.png",
-        isAIOriginal: false,
-        downloadAllowed: false
+        artwork: null,
+        isAIOriginal: true,
+        downloadAllowed: true,
+        playCount: 2456
     },
     {
         id: 7,
@@ -98,9 +106,10 @@ const sampleTracks = [
         genre: "Atmospheric Phonk",
         bpm: 130,
         duration: "4:00",
-        artwork: "assets/cover-dark.png",
-        isAIOriginal: false,
-        downloadAllowed: false
+        artwork: null,
+        isAIOriginal: true,
+        downloadAllowed: true,
+        playCount: 654
     },
     {
         id: 8,
@@ -109,9 +118,106 @@ const sampleTracks = [
         genre: "Phonk",
         bpm: 148,
         duration: "2:20",
-        artwork: "assets/cover-808.png",
-        isAIOriginal: false,
-        downloadAllowed: false
+        artwork: null,
+        isAIOriginal: true,
+        downloadAllowed: true,
+        playCount: 1567
+    },
+    {
+        id: 9,
+        title: "Cowbell Madness",
+        creator: "Phonk Producer",
+        genre: "Brazilian Phonk",
+        bpm: 146,
+        duration: "3:15",
+        artwork: null,
+        isAIOriginal: true,
+        downloadAllowed: true,
+        playCount: 3421
+    },
+    {
+        id: 10,
+        title: "Skele",
+        creator: "Drift King",
+        genre: "Drift Phonk",
+        bpm: 140,
+        duration: "2:50",
+        artwork: null,
+        isAIOriginal: true,
+        downloadAllowed: true,
+        playCount: 2890
+    },
+    {
+        id: 11,
+        title: "Murder In My Mind",
+        creator: "Phonk Legend",
+        genre: "Dark Phonk",
+        bpm: 142,
+        duration: "3:05",
+        artwork: null,
+        isAIOriginal: true,
+        downloadAllowed: true,
+        playCount: 4521
+    },
+    {
+        id: 12,
+        title: "Space Cowboy",
+        creator: "AI Victor",
+        genre: "Atmospheric Phonk",
+        bpm: 128,
+        duration: "4:30",
+        artwork: null,
+        isAIOriginal: true,
+        downloadAllowed: true,
+        playCount: 1234
+    },
+    {
+        id: 13,
+        title: "Memphis Phonk",
+        creator: "Beat Master",
+        genre: "Phonk",
+        bpm: 144,
+        duration: "2:40",
+        artwork: null,
+        isAIOriginal: true,
+        downloadAllowed: true,
+        playCount: 3678
+    },
+    {
+        id: 14,
+        title: "Dark Memphis",
+        creator: "Shadow Beats",
+        genre: "Dark Phonk",
+        bpm: 146,
+        duration: "3:20",
+        artwork: null,
+        isAIOriginal: true,
+        downloadAllowed: true,
+        playCount: 2134
+    },
+    {
+        id: 15,
+        title: "Cowbell Heaven",
+        creator: "Phonk Heaven",
+        genre: "Brazilian Phonk",
+        bpm: 138,
+        duration: "2:55",
+        artwork: null,
+        isAIOriginal: true,
+        downloadAllowed: true,
+        playCount: 4567
+    },
+    {
+        id: 16,
+        title: "Ghost Cowbell",
+        creator: "Spectral",
+        genre: "Phonk",
+        bpm: 135,
+        duration: "3:10",
+        artwork: null,
+        isAIOriginal: true,
+        downloadAllowed: true,
+        playCount: 1890
     }
 ];
 
@@ -137,17 +243,18 @@ function initializeApp() {
     initializeDrumSequencer();
     populateMusicSections();
     checkReduceMotionPreference();
-    
+    initializeThemeSwitcher();
+
     // Debounced greeting update
     let greetingTimeout;
     const updateGreetingDebounced = () => {
         clearTimeout(greetingTimeout);
         greetingTimeout = setTimeout(updateGreeting, 100);
     };
-    
+
     // Update greeting every minute
     setInterval(updateGreetingDebounced, 60000);
-    
+
 }
 
 // Dynamic Greeting System - Optimized
@@ -1120,12 +1227,82 @@ function checkReduceMotionPreference() {
     if (prefersReducedMotion) {
         state.reduceMotion = true;
         document.body.classList.add('reduced-motion');
-        
+
         const reduceMotionCheckbox = document.getElementById('reduce-motion');
         if (reduceMotionCheckbox) {
             reduceMotionCheckbox.checked = true;
         }
     }
+}
+
+// Theme Switcher - Red, Black, Blue, Pink
+function initializeThemeSwitcher() {
+    const themeButtons = document.querySelectorAll('.theme-btn');
+    themeButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const theme = e.target.dataset.theme;
+            setTheme(theme);
+        }, { passive: true });
+    });
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme') || 'default';
+    setTheme(savedTheme);
+
+    // Load saved wallpaper
+    const savedWallpaper = localStorage.getItem('wallpaper');
+    if (savedWallpaper) {
+        setWallpaperFromURL(savedWallpaper);
+    }
+}
+
+function setTheme(theme) {
+    state.theme = theme;
+    localStorage.setItem('theme', theme);
+
+    const body = document.body;
+    body.classList.remove('theme-red', 'theme-black', 'theme-blue', 'theme-pink', 'theme-default');
+
+    if (theme !== 'default') {
+        body.classList.add(`theme-${theme}`);
+    }
+
+    // Update active button
+    document.querySelectorAll('.theme-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.theme === theme);
+    });
+}
+
+// Wallpaper Functions
+function setWallpaper(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        const wallpaperUrl = e.target.result;
+        localStorage.setItem('wallpaper', wallpaperUrl);
+        setWallpaperFromURL(wallpaperUrl);
+    };
+    reader.readAsDataURL(file);
+}
+
+function setWallpaperFromURL(url) {
+    const body = document.body;
+    body.classList.add('has-wallpaper');
+    body.style.setProperty('--wallpaper-image', `url(${url})`);
+    body.style.backgroundImage = `url(${url})`;
+    body.style.backgroundSize = 'cover';
+    body.style.backgroundPosition = 'center';
+    body.style.backgroundRepeat = 'no-repeat';
+}
+
+function clearWallpaper() {
+    localStorage.removeItem('wallpaper');
+    const body = document.body;
+    body.classList.remove('has-wallpaper');
+    body.style.backgroundImage = '';
+    body.style.removeProperty('--wallpaper-image');
 }
 
 // Close modals on outside click - Optimized with event delegation
