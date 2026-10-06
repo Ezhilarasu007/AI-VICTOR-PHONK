@@ -22,6 +22,7 @@
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
         gtag('config', 'G-XTPF8EHFLP');
+        gtag('config', 'GT-K4LX6TSN', { send_page_view: false });
     </script>
 </head>
 <body>
@@ -59,14 +60,14 @@
                 <div class="hero-card">
                     <div class="hero-artwork">
                         <div class="artwork-placeholder">
-                            <div class="artwork-gradient"></div>
+                            <img src="assets/cover-dark.png" alt="Purple phonk cover artwork">
                             <div class="artwork-particles"></div>
                         </div>
                     </div>
                     <div class="hero-actions">
                         <button class="btn btn-primary btn-large" onclick="showSection('generator')">
                             <span class="btn-icon">✦</span>
-                            Create Track
+                            Create Beat
                         </button>
                         <span class="btn-subtitle">Build beats and manage your music</span>
                         <button class="btn btn-secondary btn-large" onclick="showSection('discover')">
@@ -84,8 +85,8 @@
                 <div class="action-grid">
                     <div class="action-card" onclick="showSection('generator')">
                         <div class="action-icon">✦</div>
-                        <h4>Create Track</h4>
-                        <p>Generate a new AI track</p>
+                        <h4>Create Beat</h4>
+                        <p>Synthesize a phonk beat in your browser</p>
                     </div>
                     <div class="action-card" onclick="showSection('beatlab')">
                         <div class="action-icon">🥁</div>
@@ -94,8 +95,8 @@
                     </div>
                     <div class="action-card" onclick="showSection('generator')">
                         <div class="action-icon">🔄</div>
-                        <h4>AI Remix</h4>
-                        <p>Create authorized variations</p>
+                        <h4>Beat Variation</h4>
+                        <p>Try different genre and instrument settings</p>
                     </div>
                     <div class="action-card" onclick="showSection('drumlab')">
                         <div class="action-icon">🎯</div>
@@ -178,7 +179,7 @@
         <!-- Generator Section -->
         <section id="generator" class="section">
             <div class="generator-header">
-                <h2>AI MUSIC STUDIO</h2>
+                <h2>PHONK BEAT STUDIO</h2>
                 <div class="search-bar">
                     <input type="text" placeholder="Search presets..." id="preset-search">
                     <button class="search-btn" aria-label="Search">🔍</button>
@@ -306,7 +307,7 @@
                         </div>
                         <div class="form-group">
                             <label for="duration-input">Duration (seconds)</label>
-                            <input type="number" id="duration-input" value="120" min="30" max="300">
+                            <input type="number" id="duration-input" value="30" min="30" max="300">
                         </div>
                     </div>
 
@@ -376,21 +377,20 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>AI Model</label>
-                        <div class="model-selector">
-                            <p class="model-message" role="status">Audio generation is not connected in this build. Your prompt will not be represented as a finished track.</p>
-                        </div>
-                    </div>
-
                     <button class="btn btn-primary btn-large" id="generate-btn">
                         <span class="btn-icon">✦</span>
-                        Generate Track
+                        Generate Beat
                     </button>
+                    <p class="model-message" id="generation-status" role="status">Creates original procedural audio locally in your browser. This is not AI-generated music.</p>
+                    <div class="generated-result" id="generated-result" hidden>
+                        <h3 id="generated-title">Generated Phonk Beat</h3>
+                        <p id="generated-details"></p>
+                        <audio id="generated-audio" controls></audio>
+                        <a class="btn btn-secondary" id="download-generated" download="ai-victor-phonk.wav">Download WAV</a>
+                    </div>
                 </div>
             </div>
 
-            <!-- Generation Progress -->
         </section>
 
         <!-- Library Section -->
@@ -439,7 +439,7 @@
                 </div>
                 <div class="library-tab" id="generated-tab">
                     <div class="music-grid" id="generated-grid">
-                        <p class="empty-state">No generated tracks. Audio generation is not connected in this build.</p>
+                        <p class="empty-state">No generated beats yet. Generated WAV files remain in this browser session.</p>
                     </div>
                 </div>
             </div>
@@ -794,7 +794,7 @@
             <div class="legal-content">
                 <p>Last updated: October 6, 2026</p>
                 <h3>1. Information We Collect</h3>
-                <p>This build has no account system or application backend. It does not send your prompts, library, or other app data to an AI provider or store them on a server. App state is held in memory in your browser and is cleared when the page is closed.</p>
+                <p>This build has no account system or application backend. It does not send your prompts, generated audio, library, or other app data to Firebase or an AI provider. App state is held in memory in your browser and is cleared when the page is closed.</p>
                 <h3>2. How We Use Your Information</h3>
                 <p>This build does not run AI audio generation or process payments. Google Analytics 4 is configured and may collect website usage and device data according to Google's terms and the property's settings. Your browser may also send standard connection data to the hosting provider.</p>
                 <h3>3. Data Sharing</h3>
@@ -821,7 +821,7 @@
                 <h3>2. Account Responsibilities</h3>
                 <p>This build does not provide user accounts, subscriptions, or payment processing.</p>
                 <h3>3. Music Generation</h3>
-                <p>AI audio generation is not connected in this build. No generated audio or ownership rights are promised.</p>
+                <p>Beat generation uses procedural audio synthesis in your browser; it is not AI-generated music. The site does not provide legal advice about rights in exported audio.</p>
                 <h3>4. User Content</h3>
                 <p>This build does not upload or process audio or other user content.</p>
                 <h3>5. Copyright</h3>
@@ -1222,7 +1222,7 @@
                 </div>
             </div>
             <div class="full-player-info">
-                <span class="badge ai-original">AI Original</span>
+                <span class="badge">Local Beat</span>
                 <h2 id="full-player-title">Track Title</h2>
                 <p id="full-player-creator">Creator</p>
                 <p id="full-player-details">140 BPM • C Minor • 2:00</p>
@@ -1265,6 +1265,7 @@
         </div>
     </div>
 
+    <script type="module" src="/firebase-init.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

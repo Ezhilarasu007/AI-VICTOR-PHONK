@@ -2,20 +2,22 @@
 
 **Create. Feel. Play. Victorize.**
 
-A responsive Phonk music studio prototype for exploring sample catalogue metadata, building drum patterns, and managing a browser-session library.
+A responsive Phonk music studio for creating procedural beats locally, building drum patterns, and managing a browser-session library.
 
-> **Current deployment status:** This is a static prototype. AI audio generation, accounts, and payments are not connected. The generator reports that audio generation is unavailable instead of presenting a simulated result. Advertising is disabled while the site is reviewed for publisher-content compliance. Google Analytics 4 is configured.
+> **Current deployment status:** The beat generator renders original procedural audio in the browser and exports WAV files; it is not an AI music service. Accounts and payments are not connected. Advertising is disabled while the site is reviewed for publisher-content compliance. Firebase app initialization and Google Analytics 4 are configured.
 
 ## 🚀 Quick Start
 
-### Option 1: Direct HTML (No Server Required)
+### Development server
 
-Simply open `index.html` in your browser:
+Install dependencies and start Vite:
 
 ```bash
-# Double-click index.html or run:
-start index.html
+npm install
+npm run dev
 ```
+
+Build the static site for Firebase Hosting or Vercel with `npm run build`.
 
 ## 📱 Device Support
 
@@ -56,11 +58,12 @@ start index.html
 - ✅ Phonk catalogue browsing and filtering
 - ✅ Drum Lab (16-step sequencer)
 - ✅ Browser-session library and playlists
-- ⚠️ AI audio generation is not connected
+- ✅ Procedural phonk audio generation and WAV export
+- ⚠️ Music is synthesized locally and is not AI-generated
 - ⚠️ Sample catalogue entries do not include audio recordings
-- ⚠️ Playback, account, subscription, and download services are not production services
-- ✅ Mini player and full player interface
-- ✅ Beat Lab and Music Editor interfaces
+- ⚠️ Accounts, subscriptions, and cloud library sync are not connected
+- ✅ Generated-beat preview and WAV download
+- ⚠️ Mini player, Beat Lab, and Music Editor remain prototype interfaces
 - ✅ Library management
 - ✅ Discovery section with categories
 - ⚠️ Admin dashboard is a prototype interface only
@@ -81,6 +84,8 @@ start index.html
 - `google01f842ee1eaaecce.html` and the two homepage verification meta tags are present for Google site ownership checks.
 - `ads.txt` contains the existing publisher declaration. Ad delivery is disabled in the website until the content and account are ready for review.
 - Google Analytics 4 uses the supplied Measurement ID `G-XTPF8EHFLP`.
+- The Google tag destination `GT-K4LX6TSN` is configured in the page head.
+- Firebase app initialization uses project `ai-victor-phonk`; Authentication, Firestore, and Storage features are not enabled in this prototype.
 
 The Google DNS verification CNAME cannot be applied from this repository. In the DNS control panel for the verified domain, add the record exactly as supplied by Google:
 
@@ -94,9 +99,15 @@ DNS propagation and Google verification must be completed in the corresponding p
 
 ```
 AI VICTOR PHONK/
-├── index.html          # Main application (opens directly)
+├── index.html          # Main application
+├── firebase-init.js    # Firebase Web SDK setup
 ├── styles.css          # Optimized responsive CSS
-├── script.js           # Performance-optimized JavaScript
+├── script.js           # UI and local beat synthesis
+├── assets/              # Supplied cover artwork
+├── package.json         # Build and Firebase scripts
+├── package-lock.json    # Locked npm dependencies
+├── vite.config.mjs     # Static bundle and verification assets
+├── firebase.json       # Firebase Hosting configuration
 ├── robots.txt          # Crawler instructions
 ├── sitemap.xml         # Public homepage sitemap
 ├── ads.txt             # Publisher declaration
@@ -105,11 +116,12 @@ AI VICTOR PHONK/
 
 ## 🎯 Usage
 
-### Generator status
+### Generate a beat
 
 1. Navigate to **Generator**
-2. Enter a prompt and parameters
-3. The generator will state that audio generation is unavailable; it will not create or claim a track
+2. Enter a prompt and choose genre, mood, tempo, key, duration, and instruments
+3. Click **Generate Beat** to render a WAV locally in your browser
+4. Preview or download the generated WAV
 
 ### Using Drum Lab
 
@@ -147,10 +159,23 @@ AI VICTOR PHONK/
 
 ## 📝 Notes
 
-- The app is a static prototype and runs directly in a browser.
-- `server.js` is not part of the deployed site; AI audio generation is not implemented.
-- Catalogue entries are metadata examples without audio, download, or licensing claims.
+- The app uses Vite to bundle the Firebase Web SDK.
+- The sample catalogue entries are metadata examples without recordings or licensing claims.
+- Locally generated beats are not sent to Firebase or an AI provider.
 - Google Analytics is enabled; see the Privacy Policy for the analytics disclosure.
+
+## 🚀 Firebase Hosting
+
+Firebase Hosting is preconfigured for the Vite `dist/` output:
+
+```bash
+npm install -g firebase-tools
+npm run build
+firebase login
+firebase deploy --only hosting
+```
+
+The `.firebaserc` and `firebase.json` files replace the interactive Hosting setup. A project owner must complete `firebase login` in their own browser session before deployment.
 
 ## 🎶 Phonk Categories
 

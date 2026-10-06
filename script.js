@@ -32,7 +32,7 @@ const sampleTracks = [
         genre: "Brazilian Phonk",
         bpm: 140,
         duration: "2:45",
-        artwork: null,
+        artwork: "assets/cover-brazilian.png",
         isAIOriginal: false,
         downloadAllowed: false
     },
@@ -43,7 +43,7 @@ const sampleTracks = [
         genre: "Drift Phonk",
         bpm: 145,
         duration: "3:12",
-        artwork: null,
+        artwork: "assets/cover-dark.png",
         isAIOriginal: false,
         downloadAllowed: false
     },
@@ -54,7 +54,7 @@ const sampleTracks = [
         genre: "Aggressive Phonk",
         bpm: 150,
         duration: "2:30",
-        artwork: null,
+        artwork: "assets/cover-808.png",
         isAIOriginal: false,
         downloadAllowed: false
     },
@@ -65,7 +65,7 @@ const sampleTracks = [
         genre: "Phonk",
         bpm: 138,
         duration: "3:00",
-        artwork: null,
+        artwork: "assets/cover-dark.png",
         isAIOriginal: false,
         downloadAllowed: false
     },
@@ -76,7 +76,7 @@ const sampleTracks = [
         genre: "Night Drive",
         bpm: 142,
         duration: "2:55",
-        artwork: null,
+        artwork: "assets/cover-brazilian.png",
         isAIOriginal: false,
         downloadAllowed: false
     },
@@ -87,7 +87,7 @@ const sampleTracks = [
         genre: "Gym Phonk",
         bpm: 155,
         duration: "3:20",
-        artwork: null,
+        artwork: "assets/cover-808.png",
         isAIOriginal: false,
         downloadAllowed: false
     },
@@ -98,7 +98,7 @@ const sampleTracks = [
         genre: "Atmospheric Phonk",
         bpm: 130,
         duration: "4:00",
-        artwork: null,
+        artwork: "assets/cover-dark.png",
         isAIOriginal: false,
         downloadAllowed: false
     },
@@ -109,7 +109,7 @@ const sampleTracks = [
         genre: "Phonk",
         bpm: 148,
         duration: "2:20",
-        artwork: null,
+        artwork: "assets/cover-808.png",
         isAIOriginal: false,
         downloadAllowed: false
     }
@@ -357,7 +357,7 @@ function createMusicCard(track) {
     card.innerHTML = `
         <div class="music-card-artwork">
             <div class="artwork-placeholder">
-                <div class="artwork-gradient"></div>
+                <img src="${track.artwork}" alt="${track.title} cover art" loading="lazy">
             </div>
         </div>
         <div class="music-card-info">
@@ -368,7 +368,7 @@ function createMusicCard(track) {
                 <span>${track.duration}</span>
                 <span>${track.bpm} BPM</span>
             </div>
-            <span class="badge">Sample data</span>
+            <span class="badge">${track.audioUrl ? 'Local Beat' : 'Sample data'}</span>
             <div class="music-card-controls">
                 <button class="music-card-btn" data-action="favorite" data-id="${track.id}" aria-label="Favorite">♡</button>
             </div>
@@ -584,13 +584,252 @@ function stopVisualizer() {
     });
 }
 
-function startGeneration() {
-    const prompt = document.getElementById('track-prompt').value;
-    if (!prompt.trim()) {
-        alert('Please describe your track');
+async function startGeneration() {
+    const prompt = document.getElementById('track-prompt').value.trim();
+    const bpm = Number(document.getElementById('bpm-input').value);
+    const duration = Number(document.getElementById('duration-input').value);
+    const genre = document.getElementById('genre-select').value;
+    const mood = document.getElementById('mood-select').value;
+    const key = document.getElementById('key-select').value;
+    const instruments = [...document.querySelectorAll('.instrument-option input:checked')].map(input => input.value);
+    const status = document.getElementById('generation-status');
+    const generateButton = document.getElementById('generate-btn');
+
+    if (!prompt) {
+        status.textContent = 'Describe the beat you want before generating it.';
         return;
     }
-    alert('Audio generation is not connected in this build. No track was created.');
+    if (!Number.isInteger(bpm) || bpm < 60 || bpm > 200) {
+        status.textContent = 'Set the tempo between 60 and 200 BPM.';
+        return;
+    }
+    if (!Number.isInteger(duration) || duration < 30 || duration > 300) {
+        status.textContent = 'Set the duration between 30 and 300 seconds.';
+        return;
+    }
+    if (instruments.length === 0) {
+        status.textContent = 'Select at least one instrument.';
+        return;
+    }
+
+    generateButton.disabled = true;
+    status.textContent = 'Synthesizing your beat locally…';
+    try {
+        const audioBuffer = await renderPhonkBeat({
+            bpm,
+            duration,
+            genre,
+            mood,
+            key,
+            instruments,
+            seed: `${prompt}-${Date.now()}`
+        });
+        const wav = encodeWav(audioBuffer);
+        const audioUrl = URL.createObjectURL(wav);
+        const audio = document.getElementById('generated-audio');
+        const download = document.getElementById('download-generated');
+        const result = document.getElementById('generated-result');
+        const title = prompt.split(/\s+/).slice(0, 6).join(' ').replace(/[<>]/g, '') || 'Phonk Beat';
+
+        if (state.generatedAudioUrl) URL.revokeObjectURL(state.generatedAudioUrl);
+        state.generatedAudioUrl = audioUrl;
+        audio.src = audioUrl;
+        download.href = audioUrl;
+        download.download = `${title.toLowerCase().replace(/[^a-z0-9]+/g, '-') || 'phonk-beat'}.wav`;
+        document.getElementById('generated-title').textContent = title;
+        document.getElementById('generated-details').textContent =
+            `${genre.replace('-', ' ')} • ${mood} • ${bpm} BPM • ${key.replace('-', ' ')} • ${duration}s`;
+        result.hidden = false;
+        status.textContent = 'Beat rendered locally. Preview it or download the WAV file.';
+        state.generatedTracks.push({
+            id: Date.now(),
+            title,
+            creator: 'You',
+            genre,
+            bpm,
+            duration: `${Math.floor(duration / 60)}:${String(duration % 60).padStart(2, '0')}`,
+            artwork: 'assets/cover-dark.png',
+            audioUrl,
+            downloadAllowed: true
+        });
+    } catch (error) {
+        console.error('Local beat rendering failed:', error);
+        status.textContent = `Beat rendering failed: ${error.message}`;
+    } finally {
+        generateButton.disabled = false;
+    }
+}
+
+async function renderPhonkBeat({ bpm, duration, genre, mood, key, instruments, seed: seedText }) {
+    const OfflineContext = window.OfflineAudioContext || window.webkitOfflineAudioContext;
+    if (!OfflineContext) throw new Error('Offline audio rendering is not supported by this browser.');
+
+    let seed = 2166136261;
+    for (let i = 0; i < seedText.length; i++) {
+        seed = Math.imul(seed ^ seedText.charCodeAt(i), 16777619);
+    }
+    const random = () => {
+        seed += 0x6D2B79F5;
+        let value = seed;
+        value = Math.imul(value ^ (value >>> 15), value | 1);
+        value ^= value + Math.imul(value ^ (value >>> 7), value | 61);
+        return ((value ^ (value >>> 14)) >>> 0) / 4294967296;
+    };
+
+    const sampleRate = 22050;
+    const loopDuration = 60 / bpm * 16;
+    const context = new OfflineContext(2, Math.ceil(sampleRate * loopDuration), sampleRate);
+    const master = context.createDynamicsCompressor();
+    const masterGain = context.createGain();
+    const bassIntensity = Number(document.getElementById('bass-slider').value) / 100;
+    const drumIntensity = Number(document.getElementById('drum-slider').value) / 100;
+    const energy = Number(document.getElementById('energy-slider').value) / 100;
+    const loudness = mood === 'chill' || mood === 'atmospheric' ? 0.42 : 0.62;
+    master.threshold.value = -12;
+    master.ratio.value = 4;
+    masterGain.gain.value = loudness;
+    master.connect(masterGain).connect(context.destination);
+
+    const noise = context.createBuffer(1, sampleRate, sampleRate);
+    const noiseData = noise.getChannelData(0);
+    for (let i = 0; i < noiseData.length; i++) noiseData[i] = random() * 2 - 1;
+
+    const rootNotes = { 'c-minor': 36, 'd-minor': 38, 'e-minor': 40, 'f-minor': 41, 'g-minor': 43, 'a-minor': 45, 'b-minor': 47 };
+    const scale = [0, 3, 5, 7, 10, 12, 15];
+    const root = rootNotes[key] || 36;
+    const beatSeconds = 60 / bpm;
+    const pattern = genre === 'brazilian-phonk' ? [0, 3, 6, 8, 11, 14]
+        : genre === 'drift-phonk' ? [0, 4, 8, 12, 14]
+        : genre === 'trap' ? [0, 7, 8, 11]
+        : [0, 6, 8, 12];
+    const bars = 4;
+
+    function envelope(node, time, length, peak) {
+        node.gain.setValueAtTime(0.0001, time);
+        node.gain.linearRampToValueAtTime(peak, time + 0.004);
+        node.gain.exponentialRampToValueAtTime(0.0001, time + length);
+    }
+
+    function oscillator(time, frequency, length, wave, volume, endFrequency) {
+        const source = context.createOscillator();
+        const gain = context.createGain();
+        source.type = wave;
+        source.frequency.setValueAtTime(frequency, time);
+        if (endFrequency) source.frequency.exponentialRampToValueAtTime(endFrequency, time + length);
+        envelope(gain, time, length, volume);
+        source.connect(gain).connect(master);
+        source.start(time);
+        source.stop(time + length + 0.01);
+    }
+
+    function noiseHit(time, length, volume, frequency, filterType) {
+        const source = context.createBufferSource();
+        const filter = context.createBiquadFilter();
+        const gain = context.createGain();
+        source.buffer = noise;
+        filter.type = filterType;
+        filter.frequency.value = frequency;
+        envelope(gain, time, length, volume);
+        source.connect(filter).connect(gain).connect(master);
+        source.start(time);
+        source.stop(time + length + 0.01);
+    }
+
+    for (let bar = 0; bar < bars; bar++) {
+        for (let step = 0; step < 16; step++) {
+            const time = bar * beatSeconds * 4 + step * beatSeconds / 4;
+            if (time >= duration) break;
+            const kick = pattern.includes(step) || (step === 10 && bar % 2 === 1);
+
+            if (kick && (instruments.includes('kick') || instruments.includes('808'))) {
+                oscillator(time, 145, 0.28, 'sine', drumIntensity * 0.85, 48);
+            }
+            if ([4, 12].includes(step) && instruments.includes('snare')) {
+                noiseHit(time, 0.19, drumIntensity * 0.32, 4200, 'highpass');
+                oscillator(time, 185, 0.11, 'triangle', drumIntensity * 0.19, 95);
+            }
+            if ([4, 12].includes(step) && instruments.includes('clap')) {
+                noiseHit(time + 0.012, 0.12, drumIntensity * 0.28, 1800, 'bandpass');
+                noiseHit(time + 0.034, 0.13, drumIntensity * 0.21, 2400, 'bandpass');
+            }
+            if (instruments.includes('hihat') && (step % 2 === 0 || random() < energy * 0.55)) {
+                noiseHit(time, 0.045, drumIntensity * (step % 4 === 0 ? 0.14 : 0.08), 7500, 'highpass');
+            }
+            if (kick && instruments.includes('808')) {
+                oscillator(time, 66, beatSeconds * 0.82, 'sine', bassIntensity * 0.52, 38);
+            }
+            if (kick && instruments.includes('bass')) {
+                oscillator(time, 55, beatSeconds * 0.72, 'sawtooth', bassIntensity * 0.18, 42);
+            }
+            if (instruments.includes('cowbell') && [0, 3, 6, 8, 10, 12, 14].includes(step)) {
+                const note = root + scale[Math.floor(random() * scale.length)] + 24;
+                oscillator(time, 560 + (note % 7) * 29, 0.13, 'square', energy * 0.095, 470);
+                oscillator(time, 820 + (note % 5) * 33, 0.11, 'square', energy * 0.055, 690);
+            }
+            if (instruments.some(name => ['synth', 'piano', 'lead', 'strings', 'pads', 'guitar'].includes(name))
+                && [0, 3, 6, 8, 11, 14].includes(step)) {
+                const note = root + scale[Math.floor(random() * scale.length)] + 12;
+                const wave = instruments.includes('piano') ? 'triangle' : 'sawtooth';
+                const length = instruments.includes('pads') ? 0.48 : instruments.includes('strings') ? 0.32 : 0.2;
+                const volume = energy * (mood === 'chill' ? 0.07 : 0.1);
+                oscillator(time, 440 * Math.pow(2, (note - 69) / 12), length, wave, volume, null);
+            }
+            if (instruments.includes('percussion') && [7, 15].includes(step)) {
+                noiseHit(time, 0.07, drumIntensity * 0.18, 3200, 'bandpass');
+            }
+            if (instruments.includes('fx') && step === 15 && bar % 4 === 3) {
+                noiseHit(time, 0.35, energy * 0.12, 1500, 'lowpass');
+            }
+        }
+    }
+
+    const loop = await context.startRendering();
+    const outputContext = new OfflineContext(2, Math.ceil(sampleRate * duration), sampleRate);
+    const loopSource = outputContext.createBufferSource();
+    loopSource.buffer = loop;
+    loopSource.loop = true;
+    loopSource.connect(outputContext.destination);
+    loopSource.start(0);
+    loopSource.stop(duration);
+    return outputContext.startRendering();
+}
+
+function encodeWav(audioBuffer) {
+    const channels = audioBuffer.numberOfChannels;
+    const sampleRate = audioBuffer.sampleRate;
+    const frameCount = audioBuffer.length;
+    const bytesPerSample = 2;
+    const dataSize = frameCount * channels * bytesPerSample;
+    const output = new ArrayBuffer(44 + dataSize);
+    const view = new DataView(output);
+    const writeString = (offset, value) => {
+        for (let i = 0; i < value.length; i++) view.setUint8(offset + i, value.charCodeAt(i));
+    };
+
+    writeString(0, 'RIFF');
+    view.setUint32(4, 36 + dataSize, true);
+    writeString(8, 'WAVE');
+    writeString(12, 'fmt ');
+    view.setUint32(16, 16, true);
+    view.setUint16(20, 1, true);
+    view.setUint16(22, channels, true);
+    view.setUint32(24, sampleRate, true);
+    view.setUint32(28, sampleRate * channels * bytesPerSample, true);
+    view.setUint16(32, channels * bytesPerSample, true);
+    view.setUint16(34, 16, true);
+    writeString(36, 'data');
+    view.setUint32(40, dataSize, true);
+
+    const channelData = Array.from({ length: channels }, (_, channel) => audioBuffer.getChannelData(channel));
+    let offset = 44;
+    for (let frame = 0; frame < frameCount; frame++) {
+        for (let channel = 0; channel < channels; channel++) {
+            const sample = Math.max(-1, Math.min(1, channelData[channel][frame]));
+            view.setInt16(offset, sample < 0 ? sample * 32768 : sample * 32767, true);
+            offset += bytesPerSample;
+        }
+    }
+    return new Blob([output], { type: 'audio/wav' });
 }
 
 function loadPreset(preset) {

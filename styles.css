@@ -545,6 +545,13 @@ a {
     overflow: hidden;
 }
 
+.artwork-placeholder img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 .music-card-artwork .artwork-placeholder {
     width: 100%;
     height: 100%;
@@ -978,6 +985,16 @@ a {
     border-radius: var(--radius-xl);
     padding: var(--spacing-xl);
     margin-top: var(--spacing-xl);
+}
+
+.generated-result[hidden] {
+    display: none;
+}
+
+.generated-result audio {
+    display: block;
+    width: 100%;
+    margin: var(--spacing-md) 0;
 }
 
 .result-card {
