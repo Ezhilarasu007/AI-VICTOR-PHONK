@@ -4,7 +4,7 @@
 
 A responsive Phonk music studio prototype for exploring sample catalogue metadata, building drum patterns, and managing a browser-session library.
 
-> **Current deployment status:** This is a static prototype. AI audio generation, accounts, payments, and analytics are not connected. The generator reports that audio generation is unavailable instead of presenting a simulated result. Advertising is disabled while the site is reviewed for publisher-content compliance.
+> **Current deployment status:** This is a static prototype. AI audio generation, accounts, and payments are not connected. The generator reports that audio generation is unavailable instead of presenting a simulated result. Advertising is disabled while the site is reviewed for publisher-content compliance. Google Analytics 4 is configured.
 
 ## 🚀 Quick Start
 
@@ -80,7 +80,7 @@ start index.html
 - `sitemap.xml` lists the public homepage.
 - `google01f842ee1eaaecce.html` and the two homepage verification meta tags are present for Google site ownership checks.
 - `ads.txt` contains the existing publisher declaration. Ad delivery is disabled in the website until the content and account are ready for review.
-- Google Analytics is not configured. Add the Measurement ID from the authorized Analytics property before enabling its `gtag.js` snippet; do not use a placeholder ID.
+- Google Analytics 4 uses the supplied Measurement ID `G-XTPF8EHFLP`.
 
 The Google DNS verification CNAME cannot be applied from this repository. In the DNS control panel for the verified domain, add the record exactly as supplied by Google:
 
@@ -150,7 +150,7 @@ AI VICTOR PHONK/
 - The app is a static prototype and runs directly in a browser.
 - `server.js` is not part of the deployed site; AI audio generation is not implemented.
 - Catalogue entries are metadata examples without audio, download, or licensing claims.
-- No Google Analytics tag is installed because no authorized Measurement ID was supplied.
+- Google Analytics is enabled; see the Privacy Policy for the analytics disclosure.
 
 ## 🎶 Phonk Categories
 
