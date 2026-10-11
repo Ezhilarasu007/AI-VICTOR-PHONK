@@ -17,20 +17,9 @@ const state = {
     repeat: 'none',
     adminLoggedIn: false,
     reduceMotion: false,
-    isPremium: false,
-    isAdmin: false,
-    adsEnabled: true,
-    adLoaded: false,
     theme: 'default',
     customWallpaper: null,
-    // Revenue and Ads
-    dailyAdImpressions: 0,
-    totalRevenue: 0.00,
-    cpmRate: 2.50,
-    dailyVideoLimit: 20,
-    dailyVideosGenerated: 0,
-    audioLimit: 'unlimited',
-    partners: []
+    audioLimit: 'unlimited'
 };
 
 window.addEventListener('phonk:generated', (event) => {
@@ -259,7 +248,6 @@ function initializeApp() {
     populateMusicSections();
     checkReduceMotionPreference();
     initializeThemeSwitcher();
-    initializeAdTracking();
 
     // Debounced greeting update
     let greetingTimeout;
@@ -1148,8 +1136,6 @@ function adminLoginWithPin() {
 
     if (pin === ADMIN_PIN) {
         state.adminLoggedIn = true;
-        state.isAdmin = true;
-        state.adsEnabled = false; // Admin sees no ads
         showSection('admin-dashboard');
         loadAdminData();
     } else {
@@ -1160,80 +1146,10 @@ function adminLoginWithPin() {
 
 function adminLogout() {
     state.adminLoggedIn = false;
-    state.isAdmin = false;
-    state.adsEnabled = true; // Re-enable ads on logout
     showSection('settings');
 }
 
 function loadAdminData() {
-    // Load revenue data
-    const revenueDisplay = document.getElementById('admin-revenue');
-    if (revenueDisplay) {
-        revenueDisplay.textContent = `$${state.totalRevenue.toFixed(2)}`;
-    }
-
-    // Load ad impressions
-    const impressionsDisplay = document.getElementById('admin-impressions');
-    if (impressionsDisplay) {
-        impressionsDisplay.textContent = state.dailyAdImpressions;
-    }
-
-    // Load CPM rate
-    const cpmDisplay = document.getElementById('admin-cpm');
-    if (cpmDisplay) {
-        cpmDisplay.textContent = `$${state.cpmRate.toFixed(2)}`;
-    }
-
-    // Load daily video limit
-    const videoLimitDisplay = document.getElementById('admin-video-limit');
-    if (videoLimitDisplay) {
-        videoLimitDisplay.textContent = `${state.dailyVideosGenerated} / ${state.dailyVideoLimit}`;
-    }
-
-    // Load partners
-    const partnersDisplay = document.getElementById('admin-partners');
-    if (partnersDisplay) {
-        partnersDisplay.textContent = state.partners.length;
-    }
-}
-
-function updateRevenue() {
-    // Calculate revenue based on CPM
-    const revenue = (state.dailyAdImpressions / 1000) * state.cpmRate;
-    state.totalRevenue += revenue;
-    loadAdminData();
-}
-
-function requestWithdrawal() {
-    if (state.totalRevenue < 10) {
-        alert('Minimum withdrawal amount is $10.00');
-        return;
-    }
-
-    const amount = prompt(`Enter withdrawal amount (Available: $${state.totalRevenue.toFixed(2)})`);
-    if (amount && !isNaN(amount)) {
-        const withdrawalAmount = parseFloat(amount);
-        if (withdrawalAmount <= state.totalRevenue) {
-            state.totalRevenue -= withdrawalAmount;
-            alert(`Withdrawal of $${withdrawalAmount.toFixed(2)} requested successfully!`);
-            loadAdminData();
-        } else {
-            alert('Insufficient funds');
-        }
-    }
-}
-
-function addPartner() {
-    const partnerName = prompt('Enter partner name:');
-    if (partnerName) {
-        state.partners.push({
-            name: partnerName,
-            joined: new Date().toISOString(),
-            revenue: 0
-        });
-        alert(`Partner "${partnerName}" added successfully!`);
-        loadAdminData();
-    }
 }
 
 function switchAdminTab(tabId) {
@@ -1508,10 +1424,6 @@ if ('serviceWorker' in navigator) {
     // navigator.serviceWorker.register('/sw.js');
 }
 
-function removeAds() {
-    state.adsEnabled = false;
-}
-
 // ---------- Subscription Management ----------
 function showSubscriptionModal() {
     const modal = document.createElement('div');
@@ -1571,20 +1483,4 @@ function selectSubscription(plan) {
     console.log('Selected subscription plan:', plan);
     // In a real implementation, this would initiate the purchase flow
     alert(`Selected ${plan} plan. Purchase flow would be initiated here.`);
-}
-
-function activatePremium() {
-    state.isPremium = true;
-    removeAds();
-    document.body.classList.add('ads-free');
-    console.log('Premium activated');
-}
-
-// ---------- Admin Benefits ----------
-function activateAdmin() {
-    state.isAdmin = true;
-    state.isPremium = true;
-    removeAds();
-    document.body.classList.add('ads-free');
-    console.log('Admin activated - unlimited access');
 }

@@ -47,6 +47,76 @@ const moods = {
 };
 const roots = Object.fromEntries(NOTES.map((note, index) => [note.toLowerCase(), index]));
 let currentUrl = '';
+const modelSelect = byId('ollama-model');
+
+function setModelOptions(models, message) {
+  modelSelect.replaceChildren();
+  for (const model of models) {
+    const option = document.createElement('option');
+    option.value = model.name;
+    option.textContent = model.name;
+    modelSelect.appendChild(option);
+  }
+  if (!models.length) {
+    const option = document.createElement('option');
+    option.value = '';
+    option.textContent = 'No local model installed';
+    modelSelect.appendChild(option);
+  }
+  modelSelect.disabled = models.length === 0;
+  byId('ollama-status').textContent = message;
+}
+
+async function discoverLocalModels() {
+  try {
+    const response = await fetch('/ollama/api/tags', { signal: AbortSignal.timeout(3000) });
+    if (!response.ok) throw new Error('Ollama is not responding');
+    const result = await response.json();
+    const models = Array.isArray(result.models) ? result.models : [];
+    setModelOptions(models, models.length
+      ? 'Connected to Ollama on this PC. Choose a model to direct the local composition.'
+      : 'Ollama is running, but no model is installed. Run: ollama pull qwen2.5:3b');
+  } catch {
+    setModelOptions([], 'Ollama is not reachable. Start Ollama locally to enable private model direction; offline generation still works.');
+  }
+}
+
+async function getLocalDirection({ prompt, genre, mood, bpm, key, selected }) {
+  const model = modelSelect.value;
+  if (!model) return null;
+
+  const response = await fetch('/ollama/api/generate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    signal: AbortSignal.timeout(90000),
+    body: JSON.stringify({
+      model,
+      stream: false,
+      format: 'json',
+      options: { temperature: 0.7, num_predict: 180 },
+      prompt: [
+        'Act as a phonk music producer. Return JSON only with keys title, energy, featuredLayer.',
+        'title: original short track title, maximum 48 characters.',
+        'energy: number from 0.75 to 1.25; featuredLayer: choose exactly one available layer.',
+        `User request: ${prompt.slice(0, 700)}`,
+        `Keep these selected settings: genre=${genre}; mood=${mood}; bpm=${bpm}; key=${key}.`,
+        `Available layers: ${selected.join(', ')}.`
+      ].join('\n')
+    })
+  });
+  if (!response.ok) throw new Error(`Ollama returned HTTP ${response.status}`);
+  const result = await response.json();
+  const direction = JSON.parse(result.response || '{}');
+  const title = typeof direction.title === 'string'
+    ? direction.title.replace(/[<>\r\n]/g, '').trim().slice(0, 48)
+    : '';
+  const energy = Number(direction.energy);
+  return {
+    title,
+    energy: Number.isFinite(energy) ? Math.min(1.25, Math.max(0.75, energy)) : 1,
+    featuredLayer: selected.includes(direction.featuredLayer) ? direction.featuredLayer : ''
+  };
+}
 
 function setStatus(message) {
   const status = byId('generation-status');
@@ -89,11 +159,36 @@ async function generateTrack() {
   button.disabled = true;
   setStatus('Composing original layers and rendering your mix locally…');
   try {
+    let direction = null;
+    if (modelSelect.value) {
+      byId('ollama-status').textContent = `Asking ${modelSelect.value} for local producer direction…`;
+      try {
+        direction = await getLocalDirection({
+          prompt,
+          genre: input.genre,
+          mood: input.mood,
+          bpm,
+          key: `${note} ${scale}`,
+          selected
+        });
+        byId('ollama-status').textContent = `Local model guided ${direction.featuredLayer || 'overall'} emphasis and title.`;
+      } catch (error) {
+        byId('ollama-status').textContent = `Local model unavailable (${error.message}); using offline composition.`;
+      }
+    }
+
+    if (direction) {
+      input.title = direction.title;
+      input.intensity = Math.min(1.5, input.intensity * direction.energy);
+    }
     const composition = composeTrack(input);
     const events = composition.events
       .filter((event) => (voiceLayer[event.v] || []).some((layer) => selected.includes(layer)))
       .map((event) => {
         const eventCopy = { ...event, o: { ...event.o } };
+        if (direction?.featuredLayer && (voiceLayer[event.v] || []).includes(direction.featuredLayer)) {
+          eventCopy.o.gain = (eventCopy.o.gain ?? 1) * 1.2;
+        }
         if (event.v === 'fx808') eventCopy.o.drive = 1.5 + (Number(byId('808-drive').value) / 100) * 3.5;
         if (['kick', 'snare', 'clap', 'hat', 'openhat', 'perc', 'rim'].includes(event.v)) {
           eventCopy.o.gain = (eventCopy.o.gain ?? 1) * (Number(byId('drum-slider').value) / 75);
@@ -159,6 +254,8 @@ if (generateButton) {
     generateTrack();
   });
 }
+
+discoverLocalModels();
 
 for (const id of ['energy-slider', 'bass-slider', 'drum-slider', '808-drive', 'master-drive', 'reverb-mix']) {
   const slider = byId(id);

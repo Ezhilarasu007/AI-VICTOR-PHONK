@@ -47,9 +47,6 @@ dependencies {
     // Firebase Analytics
     implementation 'com.google.firebase:firebase-analytics'
     
-    // AdMob
-    implementation 'com.google.android.gms:play-services-ads:23.3.0'
-    
     // Testing
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

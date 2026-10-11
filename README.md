@@ -4,7 +4,7 @@
 
 A responsive Phonk music studio for creating procedural beats locally, building drum patterns, and managing a browser-session library.
 
-> **Current deployment status:** The beat generator renders original procedural audio in the browser and exports WAV files; it is not an AI music service. Accounts and payments are not connected. Advertising is disabled while the site is reviewed for publisher-content compliance. Firebase app initialization and Google Analytics 4 are configured.
+> **Current status:** The beat generator synthesizes original audio in the browser and exports WAV files. When a local Ollama model is installed and running, it can provide private creative direction; it does not generate audio. No advertising SDK or ad serving is configured. Accounts, payments, and cloud sync are not connected.
 
 ## 🚀 Quick Start
 
@@ -82,7 +82,6 @@ Build the static site for Firebase Hosting or Vercel with `npm run build`.
 - `robots.txt` permits public crawling and points to the sitemap.
 - `sitemap.xml` lists the public homepage.
 - `google01f842ee1eaaecce.html` and the two homepage verification meta tags are present for Google site ownership checks.
-- `ads.txt` contains the existing publisher declaration. Ad delivery is disabled in the website until the content and account are ready for review.
 - Google Analytics 4 uses the supplied Measurement ID `G-XTPF8EHFLP`.
 - The Google tag destination `GT-K4LX6TSN` is configured in the page head.
 - Firebase app initialization uses project `ai-victor-phonk`; Authentication, Firestore, and Storage features are not enabled in this prototype.
@@ -110,7 +109,6 @@ AI VICTOR PHONK/
 ├── firebase.json       # Firebase Hosting configuration
 ├── robots.txt          # Crawler instructions
 ├── sitemap.xml         # Public homepage sitemap
-├── ads.txt             # Publisher declaration
 └── README.md          # This file
 ```
 

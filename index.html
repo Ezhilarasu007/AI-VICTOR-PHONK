@@ -8,7 +8,6 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="google-adsense-account" content="ca-pub-6751037211810646">
     <meta name="google-site-verification" content="PhqDCraPVcuNOgwktVSw2azc0jZV8jK2I4HSxFUygCE">
     <meta name="google-site-verification" content="-hxHMl8BRIYwImmc-NNF9-aLjqu2wBFwQkdTh_IsHG8">
     <title>AI Victor Phonk - Create. Feel. Play. Victorize.</title>
@@ -24,27 +23,6 @@
         gtag('js', new Date());
         gtag('config', 'G-XTPF8EHFLP');
         gtag('config', 'GT-K4LX6TSN', { send_page_view: false });
-    </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6751037211810646"
-         crossorigin="anonymous"></script>
-    <script async src="https://fundingchoicesmessages.google.com/i/pub-6751037211810646?ers=1"></script>
-    <script>
-        (function () {
-            function signalGooglefcPresent() {
-                if (!window.frames.googlefcPresent) {
-                    if (document.body) {
-                        const iframe = document.createElement('iframe');
-                        iframe.style = 'width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px;';
-                        iframe.style.display = 'none';
-                        iframe.name = 'googlefcPresent';
-                        document.body.appendChild(iframe);
-                    } else {
-                        setTimeout(signalGooglefcPresent, 0);
-                    }
-                }
-            }
-            signalGooglefcPresent();
-        })();
     </script>
 </head>
 <body>
@@ -65,16 +43,6 @@
             <button class="nav-menu-toggle" aria-label="Toggle menu">☰</button>
         </div>
     </nav>
-
-    <!-- Top Banner Ad -->
-    <div class="ad-banner-top" id="ad-banner-top">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-6751037211810646"
-             data-ad-slot="7948650423"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-    </div>
 
     <!-- Main Content -->
     <main class="main-content">
@@ -290,6 +258,14 @@
                     <div class="form-group">
                         <label for="track-prompt">Describe your track</label>
                         <textarea id="track-prompt" placeholder="Create a dark Brazilian Phonk track with aggressive 808 bass, punchy drums, distorted cowbells and a futuristic night-drive atmosphere."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ollama-model">Local PC model</label>
+                        <select id="ollama-model" disabled>
+                            <option value="">Checking local Ollama…</option>
+                        </select>
+                        <p class="model-message" id="ollama-status">Local models only. Prompts stay on this PC; audio is synthesized in your browser.</p>
                     </div>
 
                     <div class="form-row">
@@ -1027,37 +1003,11 @@
                     <h3>Dashboard Overview</h3>
                     <div class="admin-stats">
                         <div class="stat-card">
-                            <h4>Total Revenue</h4>
-                            <p class="stat-value" id="admin-revenue">$0.00</p>
-                        </div>
-                        <div class="stat-card">
-                            <h4>Ad Impressions</h4>
-                            <p class="stat-value" id="admin-impressions">0</p>
-                        </div>
-                        <div class="stat-card">
-                            <h4>CPM Rate</h4>
-                            <p class="stat-value" id="admin-cpm">$2.50</p>
-                        </div>
-                        <div class="stat-card">
-                            <h4>Daily Videos</h4>
-                            <p class="stat-value" id="admin-video-limit">0 / 20</p>
-                        </div>
-                        <div class="stat-card">
-                            <h4>Partners</h4>
-                            <p class="stat-value" id="admin-partners">0</p>
-                        </div>
-                        <div class="stat-card">
                             <h4>Audio Generated</h4>
                             <p class="stat-value">Unlimited</p>
                         </div>
                     </div>
 
-                    <div class="admin-actions">
-                        <h3>Revenue Actions</h3>
-                        <button class="btn btn-primary" onclick="updateRevenue()">Update Revenue</button>
-                        <button class="btn btn-success" onclick="requestWithdrawal()">Request Withdrawal</button>
-                        <button class="btn btn-secondary" onclick="addPartner()">Add Partner</button>
-                    </div>
                 </div>
 
                 <div class="admin-tab" id="admin-users-tab">
@@ -1333,22 +1283,7 @@
         </div>
     </div>
 
-    <!-- Bottom Banner Ad -->
-    <div class="ad-banner-bottom" id="ad-banner-bottom">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-6751037211810646"
-             data-ad-slot="7948650423"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-    </div>
-
     <script src="script.js"></script>
     <script type="module" src="js/legacy-generator.js"></script>
-    <script>
-        document.querySelectorAll('ins.adsbygoogle').forEach(() => {
-            (window.adsbygoogle = window.adsbygoogle || []).push({});
-        });
-    </script>
 </body>
 </html>

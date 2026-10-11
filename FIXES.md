@@ -36,10 +36,9 @@
 - **Latest Commit:** 3e568b2
 
 ### Files on GitHub
-- ✅ index.html - Main application with AdSense
+- ✅ index.html - Main application with ad scripts removed
 - ✅ styles.css - Optimized responsive CSS
 - ✅ script.js - Performance-optimized JavaScript
-- ✅ ads.txt - AdSense verification
 - ✅ vercel.json - Vercel deployment config
 - ✅ .gitignore - Protects sensitive files
 - ✅ Android project files
@@ -125,13 +124,6 @@
 - ✅ Admin dashboard
 - ✅ Settings and privacy
 - ✅ Keyboard shortcuts
-
-### Ad Integration
-- ✅ Google AdSense (6 ad placements)
-- ✅ AdMob (Android)
-- ✅ ads.txt verification
-- ✅ Premium users see no ads
-- ✅ Admin users see no ads
 
 ### Firebase
 - ✅ Firebase project configured

@@ -74,8 +74,6 @@ Added 5 theme colors:
 - ✅ Settings with theme switcher
 - ✅ Custom wallpaper upload
 - ✅ Privacy and legal sections
-- ✅ AdSense integration
-- ✅ AdMob integration (Android)
 - ✅ Firebase integration
 - ✅ Subscription system
 

@@ -22,15 +22,6 @@
       ]
     },
     {
-      "source": "/ads.txt",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "text/plain"
-        }
-      ]
-    },
-    {
       "source": "/sitemap.xml",
       "headers": [
         {
