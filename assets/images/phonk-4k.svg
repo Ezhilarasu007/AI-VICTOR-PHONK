@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160">
+  <defs>
+    <linearGradient id="phonkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ef4444;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#22d3ee;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="3840" height="2160" fill="#030712"/>
+  <rect x="500" y="500" width="800" height="600" rx="20" fill="url(#phonkGrad)" opacity="0.8"/>
+  <rect x="1500" y="500" width="800" height="600" rx="20" fill="url(#phonkGrad)" opacity="0.6"/>
+  <rect x="2500" y="500" width="800" height="600" rx="20" fill="url(#phonkGrad)" opacity="0.4"/>
+  <rect x="1000" y="1300" width="800" height="600" rx="20" fill="url(#phonkGrad)" opacity="0.5"/>
+  <rect x="2000" y="1300" width="800" height="600" rx="20" fill="url(#phonkGrad)" opacity="0.7"/>
+  <text x="1920" y="1080" font-family="Arial, sans-serif" font-size="150" font-weight="bold" fill="white" text-anchor="middle" opacity="0.8">PHONK</text>
+</svg>

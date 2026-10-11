@@ -78,6 +78,12 @@ nul
 original-demo/
 verification/
 js/
+!js/
+js/*
+!js/audio.js
+!js/composer.js
+!js/render.js
+!js/legacy-generator.js
 DEPLOYMENT_NOTES.md
 ADSENSE_DEPLOYMENT.md
 android/.gradle/

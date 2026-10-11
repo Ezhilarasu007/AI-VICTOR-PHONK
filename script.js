@@ -33,6 +33,13 @@ const state = {
     partners: []
 };
 
+window.addEventListener('phonk:generated', (event) => {
+    state.generatedTracks.unshift(event.detail);
+    if (document.querySelector('.library-tabs .tab-btn.active')?.dataset.tab === 'generated') {
+        populateLibraryTab('generated');
+    }
+});
+
 // Sample Music Data
 const sampleTracks = [
     {
